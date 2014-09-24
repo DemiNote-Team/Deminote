@@ -72,11 +72,10 @@ a {
 }
 
 .sub {
-    border-radius: 5px;
     background: #eee;
     padding: 17px;
     margin: 20px;
-    border: 1px solid gray;
+    border: 1px solid #ccc;
 }
 
 .sidebar-icon, #sidebar-logo {
