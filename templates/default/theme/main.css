@@ -9,10 +9,17 @@ body {
     font-family: Segoe UI;
     margin: 0;
     padding: 0;
+    background: #f7f7f7;
 }
 
 a {
     text-decoration: none;
+    color: #369;
+}
+
+a:hover {
+    opacity: 0.9;
+    color: black;
 }
 
 .sidebar {
@@ -45,11 +52,10 @@ a {
 }
 
 .foot {
-    width: calc(100% - 470px);
+    width: calc(100% - 165px);
     margin-left: 125px;
     position: fixed;
-    text-align: center;
-    background: white;
+    background: #f1f1f1;
     color: gray;
     bottom: 0;
     left: 0;
@@ -59,8 +65,7 @@ a {
 
 .right {
     min-height: 100%;
-    border-left: 1px solid gray;
-    background: white;
+    background: #f7f7f7;
     color: black;
     width: 280px;
     text-align: center;
@@ -72,10 +77,10 @@ a {
 }
 
 .sub {
-    background: #eee;
+    background: #ccc;
     padding: 17px;
     margin: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #f2f2f2;
 }
 
 .sidebar-icon, #sidebar-logo {
@@ -83,18 +88,36 @@ a {
 }
 
 .blog {
-    padding: 7px;
-    border: 1px solid #ddd;
-    background: #eee;
+    padding: 9px;
+    border: 1px solid #ccc;
+    background: #e4e4e4;
     color: black;
     margin-bottom: 20px;
 }
 
 .blog-title {
     font-size: 22px;
-    margin-bottom: 17px;
+    display: inline-block;
 }
 
 .blog-text {
     font-size: 16px;
+    margin-top: 17px;
+}
+
+.blog-info {
+    float: right;
+    display: inline-block;
+}
+
+.links, .copyright {
+    display: inline-block;
+}
+
+.copyright {
+    float: right;
+}
+
+.links a {
+    margin-right: 11px;
 }
