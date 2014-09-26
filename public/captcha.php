@@ -2,7 +2,7 @@
     header('Content-type: image/png');
     session_name("osmium");
     session_start();
-    $letters = 'ABCDEFGKIJKLMNOPQRSTUVWXYZ1234567890';
+    $letters = 'ABCDEFGKKLMNOPRSTUVWXYZ1234567890';
     $caplen = 5;
     $captcha = '';
     $width = 110;

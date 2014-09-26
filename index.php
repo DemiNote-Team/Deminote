@@ -1,6 +1,6 @@
 <?php
 	include 'core/core.php';
-    $view->invoke('page-title', ['title' => 'Новые топики']);
+    $view->invoke('page-title', ['title' => '{{:new_topics}}']);
 
 	/////////////////////////////////
 	$view->invoke('blog', [

@@ -2,23 +2,23 @@
 		<img title="{{TITLE}}" src="{{DIR}}/logo.png" id="sidebar-logo" />
 		<br />
 		<a class="sidebar-link" href="/">
-			<img title="Домой" src="{{DIR}}/theme/icons/home.png" class="sidebar-icon">
+			<img title="{{:to_home}}" src="{{DIR}}/theme/icons/home.png" class="sidebar-icon">
 		</a>
 
 		<div class="bottom">
 			<a class="sidebar-link" href="/donate/">
-				<img title="Пожертвования" src="{{DIR}}/theme/icons/donate.png" class="sidebar-icon">
+				<img title="{{:donate}}" src="{{DIR}}/theme/icons/donate.png" class="sidebar-icon">
 			</a>
 			<br />
             <div class="sidebar-menu-button">
                 <img title="Меню" src="{{DIR}}/theme/icons/menu.png" class="sidebar-icon">
                 <div class="sidebar-menu">
                     <a href="#" onclick="openAuthWindow();"><div class="p-menu">
-                        <img class="sidebar-menu-icon" src="{{DIR}}/theme/icons/auth.png" /> Авторизация
+                        <img class="sidebar-menu-icon" src="{{DIR}}/theme/icons/auth.png" /> {{:authorization}}
                     </div></a><a href="#" onclick="openRegWindow();"><div class="p-menu">
-                        <img class="sidebar-menu-icon" src="{{DIR}}/theme/icons/reg.png" /> Регистрация
+                        <img class="sidebar-menu-icon" src="{{DIR}}/theme/icons/reg.png" /> {{:registration}}
                     </div></a><a href="/help/"><div class="p-menu">
-                        <img class="sidebar-menu-icon" src="{{DIR}}/theme/icons/help.png" /> Помощь
+                        <img class="sidebar-menu-icon" src="{{DIR}}/theme/icons/help.png" /> {{:help}}
                     </div></a>
                 </div>
             </div>

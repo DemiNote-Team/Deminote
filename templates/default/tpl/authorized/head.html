@@ -8,16 +8,29 @@
     <script src="/javascript/JQuery.color.js"></script>
     <script src="/javascript/Base64.js"></script>
     <script src="/javascript/source.js"></script>
+
+    <script src="{{DIR}}/script/local.js"></script>
 </head>
 <body>
     <div class="hidden-layout">
         <div class="opacity-layout" onclick="hideLayout();"></div>
+        <div class="loading-layout">
+            <img src="/public/images/loading.gif" class="loading-image" />
+        </div>
+        <div class="error-layout">
+            <b>{{:error}}!</b>
+            <br />
+            <br />
+            <div class="error-text">
+            {{:error_happened}}.
+            </div>
+        </div>
         <table class="fullscreen">
             <tr>
                 <td>
                     <div class="auth-window">
                         <div class="auth-window-title">
-                            Авторизация
+                            {{:authorization}}
 
                             <div class="auth-window-controls">
                                 <a href="#" onclick="closeAuthWindow();"><img src="{{DIR}}/theme/icons/close.png" /></a>
@@ -28,11 +41,11 @@
                             <table class="auth-window-content-table">
                                 <tr class="auth-window-content-tr">
                                     <td class="auth-window-content-td auth-window-content-td-left">
-                                        <input type="text" id="auth-form-login" placeholder="Введите логин.." />
+                                        <input type="text" id="auth-form-login" placeholder="{{:enter_login}}.." />
                                         <br />
-                                        <input type="password" id="auth-form-password" placeholder="Введите пароль.." />
+                                        <input type="password" id="auth-form-password" placeholder="{{:enter_password}}.." />
                                         <br />
-                                        <input type="text" id="auth-form-captcha" placeholder="Капча.." />
+                                        <input type="text" maxlength="5" id="auth-form-captcha" placeholder="{{:captcha}}.." />
                                         <img class="captcha" onclick="updateCaptcha();" src="/public/captcha.php?" id="auth-form-captcha-img" />
                                     </td>
                                     <td class="auth-window-content-td auth-window-content-td-left">
@@ -43,13 +56,12 @@
                                 </tr>
                                 <tr class="auth-window-content-tr auth-window-buttons">
                                     <td class="auth-window-content-td auth-window-buttons" colspan="2">
-                                        <button>Войти</button>
+                                        <button>{{:enter}}</button>
                                         <div class="auth-form-forgot-password">
-                                            <!--<button>Забыл пароль</button>-->
-                                            <a href="/forgot-password/">Забыл пароль</a>
+                                            <a href="/forgot-password/">{{:forgot_password}}</a><br /><a href="#" onclick="closeAuthWindow(); openRegWindow();">{{:registration}}</a>
                                         </div>
                                         <div class="auth-form-hint">
-                                            Подсказка: нажмите на капчу для ее обновления.
+                                            {{:captcha_hint}}
                                         </div>
                                     </td>
                                 </tr>
@@ -61,7 +73,7 @@
 
                     <div class="reg-window">
                         <div class="reg-window-title">
-                            Регистрация
+                            {{:registration}}
 
                             <div class="reg-window-controls">
                                 <a href="#" onclick="closeRegWindow();"><img src="{{DIR}}/theme/icons/close.png" /></a>
@@ -71,18 +83,18 @@
                         <div class="reg-window-content">
                             <table class="reg-window-content-table">
                                 <tr class="reg-window-content-tr">
-                                    <td class="reg-window-content-td auth-window-content-td-left">
-                                        <input type="text" name="logim" id="reg-form-login" placeholder="Выберите себе логин.." />
+                                    <td class="reg-window-content-td reg-window-content-td-left">
+                                        <input type="text" name="logim" id="reg-form-login" placeholder="{{:choose_login}}.." />
                                         <br />
-                                        <input type="password" id="reg-form-password" placeholder="Введите пароль.." />
+                                        <input type="password" id="reg-form-password" placeholder="{{:enter_password}}.." />
                                         <br />
-                                        <input type="password" id="reg-form-password-repeat" placeholder="Повторите пароль.." />
+                                        <input type="password" id="reg-form-password-repeat" placeholder="{{:repeat_password}}.." />
                                         <br />
-                                        <input type="text" name="email" id="reg-form-email" placeholder="Ваша электронная почта.." />
+                                        <input type="text" name="email" id="reg-form-email" placeholder="{{:your_email}}.." />
                                         <br />
-                                        <input type="text" id="reg-form-name" placeholder="Введите своё имя.." />
+                                        <input type="text" id="reg-form-name" placeholder="{{:your_name}}.." />
                                         <br />
-                                        <input type="text" id="reg-form-captcha" placeholder="Капча.." />
+                                        <input type="text" maxlength="5" id="reg-form-captcha" placeholder="{{:captcha}}.." />
                                         <img class="captcha" onclick="updateCaptcha();" src="/public/captcha.php?" id="reg-form-captcha-img" />
                                     </td>
                                     <td class="reg-window-content-td reg-window-content-td-left">
@@ -93,9 +105,9 @@
                                 </tr>
                                 <tr class="reg-window-content-tr reg-window-buttons">
                                     <td class="reg-window-content-td reg-window-buttons" colspan="2">
-                                        <button>Зарегистрироваться</button>
+                                        <button onclick="processRegister();">{{:register}}</button>
                                         <div class="reg-form-hint">
-                                            Подсказка: нажмите на капчу для ее обновления.
+                                            {{:captcha_hint}}
                                         </div>
                                     </td>
                                 </tr>

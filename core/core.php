@@ -6,14 +6,11 @@
     session_start();
 	include_once ROOT . '/core/view.class.php';
 	include_once ROOT . '/core/database.class.php';
+    include_once ROOT . '/core/user.class.php';
 
-    class user {
-        public $authorized = false;
-    }
-
-    $user = new user();
-	$view = new View("templates/default", $user);
 	$db = new database("localhost", "root", "123456", "osmium");
+    $user = new user($db);
+    $view = new View("templates/default", 'en', $user);
     $config = $db->fetch($db->query("SELECT * FROM `config` LIMIT 1"));
 
     $view->invoke('head');

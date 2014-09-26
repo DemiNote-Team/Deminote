@@ -8,7 +8,7 @@
         public function __construct(database $db) {
             $this->db = $db;
 
-            if ($_SESSION['session']) {
+            if (isset($_SESSION['session'])) {
                 $q = $this->db->query("SELECT * FROM `user` WHERE `session` = '{$_SESSION[session]}'");
                 if ($this->db->num_rows($q) != 1) {
                     $this->authorized = false;
@@ -16,7 +16,7 @@
                     $this->authorized = false;
                     $this->data = $this->db->fetch($q);
                 }
-            } else if ($_COOKIE['session']) {
+            } else if (isset($_COOKIE['session'])) {
                 $q = $this->db->query("SELECT * FROM `user` WHERE `session` = '" . $this->db->filter($_COOKIE['session']) ."'");
                 if ($this->db->num_rows($q) != 1) {
                     $this->authorized = false;

@@ -312,7 +312,10 @@ button:active {
 
 .auth-form-forgot-password {
     float: right;
+    text-align: right;
     margin-right: 20px;
+    top: -5px;
+    position: relative;
 }
 
 .auth-window-controls, .reg-window-controls {
@@ -336,6 +339,10 @@ td.auth-window-buttons, td.reg-window-buttons {
     margin-left: 16px;
 }
 
+.auth-window-buttons button {
+    margin-top: -3px;
+}
+
 .auth-form-hint, .reg-form-hint {
     padding: 0 10px 10px;
     color: gray;
@@ -347,4 +354,38 @@ td.auth-window-buttons, td.reg-window-buttons {
 
 img.captcha {
     cursor: pointer;
+}
+
+.loading-image {
+    width: 64px;
+    float: right;
+    vertical-align: middle;
+}
+
+.loading-layout, .error-layout {
+    vertical-align: middle;
+    position: fixed;
+    padding: 11px;
+    top: 0;
+    right: 0;
+    border: 1px solid gray;
+    background: white;
+    display: none;
+    z-index: 500;
+    text-align: right;
+}
+
+.error-layout {
+    padding: 20px;
+    border: 1px solid red;
+    bottom: 20px;
+    right: 20px;
+    top: auto;
+    width: 240px;
+    height: auto;
+    background: #fcc;
+}
+
+.error-text {
+    display: inline-block;
 }
