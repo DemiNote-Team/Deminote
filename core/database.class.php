@@ -5,16 +5,16 @@
         public $queries = Array();
         public $log;
         protected $db;
-	    protected $host;
-	    protected $user;
-	    protected $pass;
-	    protected $name;
+        protected $host;
+        protected $user;
+        protected $pass;
+        protected $name;
 
         function __construct($host, $user, $pass, $name) {
-	        $this->host = $host;
-	        $this->user = $user;
-	        $this->pass = $pass;
-	        $this->name = $name;
+            $this->host = $host;
+            $this->user = $user;
+            $this->pass = $pass;
+            $this->name = $name;
             $this->MySQLiConnect();
         }
 
