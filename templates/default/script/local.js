@@ -53,6 +53,8 @@ function updateCaptcha() {
     $('img.captcha').each(function () {
         this.src = this.src + Math.floor(Math.random() * 100);
     });
+    $('#auth-form-captcha,#reg-form-captcha').val('');
+    $('#auth-form-captcha,#reg-form-captcha').css('text-transform', 'none');
 }
 
 function processRegister() {
@@ -109,6 +111,7 @@ function processRegister() {
             name: name,
             captcha: captcha
         }, function (data) {
+            console.log(data);
             $(".loading-layout").hide();
             try {
                 data = JSON.parse(data);
@@ -116,9 +119,14 @@ function processRegister() {
                 showError("Произошла ошибка. Попробуйте перезагрузить страницу.");
                 return false;
             }
+            if (data.success) {
+                var session = data.session;
+                document.cookie = 'session=' + session + '; path=/;';
+                location.href = '/';
+            }
             if (data.error) {
                 var errorText = '';
-                switch (data.error) {
+                switch (data.desc) {
                     case 'small-login':
                         errorText = 'Слишком маленький логин.';
                         break;
@@ -152,9 +160,13 @@ function processRegister() {
                     case 'wrong-email':
                         errorText = 'Неверный электронный адрес.';
                         break;
+                    default:
+                        errorText = "Произошла ошибка. Попробуйте перезагрузить страницу.";
+                        break;
                 }
                 updateCaptcha();
                 showError(errorText);
+                $(".reg-window-content input").removeAttr('disabled');
             }
         }, function () {
             showError("Произошла ошибка. Попробуйте перезагрузить страницу.");

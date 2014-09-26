@@ -1,5 +1,5 @@
 <?php
-    class View {
+    class view {
         protected $dir; //templates directory
         protected $lang; //language
         protected $authorized;
