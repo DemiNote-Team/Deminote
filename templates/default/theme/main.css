@@ -389,3 +389,18 @@ img.captcha {
 .error-text {
     display: inline-block;
 }
+
+.blog-list {
+    display: inline-block;
+    border-radius: 20px;
+    padding: 0;
+    overflow: hidden;
+    margin: 0 0 20px;
+}
+
+.blog-link {
+    display: inline-block;
+    background: #222;
+    color: white;
+    padding: 11px;
+}

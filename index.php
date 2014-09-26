@@ -1,8 +1,34 @@
 <?php
 	include 'core/core.php';
-    $view->invoke('page-title', ['title' => '{{:new_topics}}']);
 
+    /////////////////////////////////
+    $view->invoke('blogs-list-open');
+    /////////////////////////////////
+    $view->invoke('blog-name', [
+       'name' => 'Osmium',
+       'id' => '1',
+       'translit' => 'Osmium'
+    ]);
+    $view->invoke('blog-name', [
+        'name' => 'Обновления',
+        'id' => '2',
+        'translit' => 'Obnovleniya'
+    ]);
+    $view->invoke('blog-name', [
+        'name' => 'Вопросы и ответы',
+        'id' => '3',
+        'translit' => 'Voprosy_i_otvety'
+    ]);
+    $view->invoke('blog-name', [
+        'name' => 'English Support',
+        'id' => '4',
+        'translit' => 'English_Support'
+    ]);
 	/////////////////////////////////
+    $view->invoke('blogs-list-close');
+    /////////////////////////////////
+    $view->invoke('page-title', ['title' => '{{:new_topics}} - {{name}}', 'name' => 'Osmium']);
+    /////////////////////////////////
 	$view->invoke('blog', [
 		'title' => 'История Игната #1',
 		'date' => '22:31, 24/09/2014',
