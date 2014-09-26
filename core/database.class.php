@@ -11,11 +11,11 @@
 	    protected $name;
 
         function __construct($host, $user, $pass, $name) {
-            $this->MySQLiConnect();
 	        $this->host = $host;
 	        $this->user = $user;
 	        $this->pass = $pass;
 	        $this->name = $name;
+            $this->MySQLiConnect();
         }
 
         protected function MySQLiConnect() {

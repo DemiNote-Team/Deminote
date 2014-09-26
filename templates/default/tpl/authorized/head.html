@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Osmium CMS</title>
+    <link rel="stylesheet" href="{{DIR}}/theme/main.css" />
+    <script src="/javascript/JQuery.js"></script>
+    <script src="/javascript/JQuery.color.js"></script>
+    <script src="/javascript/Base64.js"></script>
+    <script src="/javascript/source.js"></script>
+</head>
+<body>
+    <div class="hidden-layout">
+        <div class="opacity-layout" onclick="hideLayout();"></div>
+        <table class="fullscreen">
+            <tr>
+                <td>
+                    <div class="auth-window">
+                        <div class="auth-window-title">
+                            Авторизация
+
+                            <div class="auth-window-controls">
+                                <a href="#" onclick="closeAuthWindow();"><img src="{{DIR}}/theme/icons/close.png" /></a>
+                            </div>
+                        </div>
+
+                        <div class="auth-window-content">
+                            <table class="auth-window-content-table">
+                                <tr class="auth-window-content-tr">
+                                    <td class="auth-window-content-td auth-window-content-td-left">
+                                        <input type="text" id="auth-form-login" placeholder="Введите логин.." />
+                                        <br />
+                                        <input type="password" id="auth-form-password" placeholder="Введите пароль.." />
+                                        <br />
+                                        <input type="text" id="auth-form-captcha" placeholder="Капча.." />
+                                        <img class="captcha" onclick="updateCaptcha();" src="/public/captcha.php?" id="auth-form-captcha-img" />
+                                    </td>
+                                    <td class="auth-window-content-td auth-window-content-td-left">
+                                        <img src="{{DIR}}/theme/icons/vk-login.png" class="login-enter-img" />
+                                        <br />
+                                        <img src="{{DIR}}/theme/icons/google-login.png" class="login-enter-img" />
+                                    </td>
+                                </tr>
+                                <tr class="auth-window-content-tr auth-window-buttons">
+                                    <td class="auth-window-content-td auth-window-buttons" colspan="2">
+                                        <button>Войти</button>
+                                        <div class="auth-form-forgot-password">
+                                            <!--<button>Забыл пароль</button>-->
+                                            <a href="/forgot-password/">Забыл пароль</a>
+                                        </div>
+                                        <div class="auth-form-hint">
+                                            Подсказка: нажмите на капчу для ее обновления.
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!--                       Регистрация                         -->
+
+                    <div class="reg-window">
+                        <div class="reg-window-title">
+                            Регистрация
+
+                            <div class="reg-window-controls">
+                                <a href="#" onclick="closeRegWindow();"><img src="{{DIR}}/theme/icons/close.png" /></a>
+                            </div>
+                        </div>
+
+                        <div class="reg-window-content">
+                            <table class="reg-window-content-table">
+                                <tr class="reg-window-content-tr">
+                                    <td class="reg-window-content-td auth-window-content-td-left">
+                                        <input type="text" name="logim" id="reg-form-login" placeholder="Выберите себе логин.." />
+                                        <br />
+                                        <input type="password" id="reg-form-password" placeholder="Введите пароль.." />
+                                        <br />
+                                        <input type="password" id="reg-form-password-repeat" placeholder="Повторите пароль.." />
+                                        <br />
+                                        <input type="text" name="email" id="reg-form-email" placeholder="Ваша электронная почта.." />
+                                        <br />
+                                        <input type="text" id="reg-form-name" placeholder="Введите своё имя.." />
+                                        <br />
+                                        <input type="text" id="reg-form-captcha" placeholder="Капча.." />
+                                        <img class="captcha" onclick="updateCaptcha();" src="/public/captcha.php?" id="reg-form-captcha-img" />
+                                    </td>
+                                    <td class="reg-window-content-td reg-window-content-td-left">
+                                        <img src="{{DIR}}/theme/icons/vk-login.png" class="login-enter-img" />
+                                        <br />
+                                        <img src="{{DIR}}/theme/icons/google-login.png" class="login-enter-img" />
+                                    </td>
+                                </tr>
+                                <tr class="reg-window-content-tr reg-window-buttons">
+                                    <td class="reg-window-content-td reg-window-buttons" colspan="2">
+                                        <button>Зарегистрироваться</button>
+                                        <div class="reg-form-hint">
+                                            Подсказка: нажмите на капчу для ее обновления.
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>

@@ -29,8 +29,17 @@
 				<img title="Настройки" src="{{DIR}}/theme/icons/settings.png" class="sidebar-icon">
 			</a>
 			<br />
-			<a class="sidebar-link" onclick="showMenu();">
-				<img title="Меню" src="{{DIR}}/theme/icons/menu.png" class="sidebar-icon">
-			</a>
+            <div class="sidebar-menu-button">
+                <img title="Меню" src="{{DIR}}/theme/icons/menu.png" class="sidebar-icon">
+                <div class="sidebar-menu">
+                    <a href="#" onclick="openAuthWindow();"><div class="p-menu">
+                        <img class="sidebar-menu-icon" src="{{DIR}}/theme/icons/auth.png" /> Авторизация
+                    </div></a><a href="#" onclick="openRegWindow();"><div class="p-menu">
+                    <img class="sidebar-menu-icon" src="{{DIR}}/theme/icons/reg.png" /> Регистрация
+                </div></a><a href="/help/"><div class="p-menu">
+                    <img class="sidebar-menu-icon" src="{{DIR}}/theme/icons/help.png" /> Помощь
+                </div></a>
+                </div>
+            </div>
 		</div>
 	</div>

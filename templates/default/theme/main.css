@@ -32,7 +32,6 @@ a:hover {
     left: 0;
     top: 0;
     border-right: 1px solid gray;
-    padding: 12px;
 }
 
 .sidebar .bottom {
@@ -40,27 +39,27 @@ a:hover {
     left: 0;
     bottom: 0;
     text-align: center;
-    padding: 12px;
     width: inherit;
 }
 
 .content {
-    width: calc(100% - 470px);
-    margin-left: 125px;
+    width: calc(100% - 415px);
+    margin-left: 101px;
     color: black;
     padding: 20px;
 }
 
 .foot {
-    width: calc(100% - 165px);
-    margin-left: 125px;
-    position: fixed;
+    width: calc(100% - 141px);
+    margin-left: 101px;
+    //position: fixed;
     background: #f1f1f1;
     color: gray;
     bottom: 0;
     left: 0;
     padding: 20px;
     border-top: 1px solid gray;
+    z-index: 1;
 }
 
 .right {
@@ -72,15 +71,15 @@ a:hover {
     position: absolute;
     right: 0;
     top: 0;
-    padding-left: 12px;
+    //padding-left: 12px;
     padding-right: 12px;
 }
 
 .sub {
-    background: #ccc;
     padding: 17px;
     margin: 20px;
-    border: 1px solid #f2f2f2;
+    border: 1px solid #ccc;
+    background: #f1f1f1;
 }
 
 .sidebar-icon, #sidebar-logo {
@@ -90,7 +89,7 @@ a:hover {
 .blog {
     padding: 9px;
     border: 1px solid #ccc;
-    background: #e4e4e4;
+    background: #f1f1f1;
     color: black;
     margin-bottom: 20px;
 }
@@ -105,9 +104,13 @@ a:hover {
     margin-top: 17px;
 }
 
-.blog-info {
+.blog-name {
     float: right;
     display: inline-block;
+}
+
+.blog-info {
+
 }
 
 .links, .copyright {
@@ -120,4 +123,228 @@ a:hover {
 
 .links a {
     margin-right: 11px;
+}
+
+.page-title {
+    font-size: 30px;
+    margin-bottom: 26px;
+    font-weight: bold;
+}
+
+.sidebar {
+    z-index: 3;
+}
+
+.sidebar-menu {
+    left: 100px;
+    bottom: 0;
+    position: fixed;
+    display: none;
+    z-index: 3;
+    border-left: 1px solid #333;
+}
+
+.sidebar-menu .p-menu {
+    text-align: left;
+    display: block;
+    width: 200px;
+    padding: 14px;
+    background: #222;
+    color: white;
+    z-index: 3;
+}
+
+.sidebar-menu .p-menu:hover {
+    background: #333;
+}
+
+.sidebar-menu-button:hover .sidebar-menu {
+    display: block;
+}
+
+.sidebar-menu-icon {
+    width: 24px;
+    margin-right: 12px;
+    float: left;
+}
+
+.right-icon {
+    width: 26px;
+    float: left;
+    margin-right: 9px;
+}
+
+.no-center {
+    text-align: left;
+}
+
+.hidden-layout {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    display: none;
+}
+
+.opacity-layout {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #777;
+    opacity: 0.96;
+    z-index: 100;
+    display: block;
+}
+
+table.fullscreen, table.tr, table.td {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.auth-window, .reg-window {
+    width: 400px;
+    background: white;
+    position: relative;
+    z-index: 101;
+    display: none;
+}
+
+.auth-window-controls, .reg-window-controls
+{
+    float: right;
+    font-size: 16px;
+    margin-top: 3px;
+}
+
+.auth-window-controls img, .reg-window-controls img {
+    width: 32px;
+}
+
+.auth-window-title, .reg-window-title {
+    padding: 18px;
+    border: 1px solid #ccc;
+    border-bottom: 0;
+    background: #ccc;
+    font-size: 20px;
+    text-align: left;
+}
+
+.auth-window-content, .reg-window-content {
+    background: white;
+    border: 1px solid #ccc;
+    //height: 240px;
+}
+
+.auth-window-content-table, .auth-window-content-tr, .auth-window-content-td,
+.reg-window-content-table, .reg-window-content-tr, .reg-window-content-td{
+    width: 100%;
+    height: 100%;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.auth-window-content-td, .reg-window-content-td {
+    padding: 10px;
+    vertical-align: top;
+    text-align: left;
+    font-size: 16px;
+}
+
+.auth-window-content-td input, .reg-window-content-td input {
+    width: 220px;
+    margin: 5px;
+}
+
+.auth-window-content-td button, .reg-window-content-td button {
+    margin: 10px;
+}
+
+#auth-form-captcha, #reg-form-captcha {
+    width: 100px;
+}
+
+#auth-form-captcha-img, #reg-form-captcha-img {
+    position: relative;
+    margin-top: -10px;
+    top: 11px;
+}
+
+input[type="text"], input[type="password"], textarea {
+    font-family: Segoe UI;
+    padding: 10px;
+    color: gray;
+    font-size: 16px;
+    border: 1px solid #bbb;
+}
+
+button {
+    font-family: Segoe UI;
+    padding: 8px;
+    min-width: 100px;
+    color: white;
+    background: green;
+    font-size: 18px;
+    border: 1px solid gray;
+    transition: background ease 0.2s;
+}
+
+button:hover {
+    background: darkviolet;
+}
+
+button:active {
+    background: navy;
+}
+
+.login-enter-img {
+    width: 64px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.auth-form-forgot-password {
+    float: right;
+    margin-right: 20px;
+}
+
+.auth-window-controls, .reg-window-controls {
+    position: relative;
+    top: -5px;
+    float: right;
+}
+
+.auth-window-buttons, .reg-window-buttons {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+td.auth-window-buttons, td.reg-window-buttons {
+    width: inherit;
+}
+
+.auth-window-buttons button, .reg-window-buttons button {
+    margin-top: 13px;
+    margin-left: 16px;
+}
+
+.auth-form-hint, .reg-form-hint {
+    padding: 0 10px 10px;
+    color: gray;
+}
+
+.user-icon {
+    width: 10px;
+}
+
+img.captcha {
+    cursor: pointer;
 }
