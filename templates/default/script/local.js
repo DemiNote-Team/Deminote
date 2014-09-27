@@ -6,15 +6,15 @@ $(document).ready(function () {
         else this.style.textTransform = 'none';
     });
 
-    if (vkdata) {
-        vkdata = JSON.parse(vkdata);
+    if (oauthdata) {
+        oauthdata = JSON.parse(oauthdata);
     }
 
     var uri = location.href.split('/');
-    if (uri[uri.length - 1] == '#continuereg' && vkdata) {
+    if (uri[uri.length - 1] == '#continuereg' && oauthdata) {
         openRegWindow();
-        $('#reg-form-email').val(vkdata['email']);
-        $('#reg-form-name').val(vkdata['name']);
+        $('#reg-form-email').val(oauthdata['email']);
+        $('#reg-form-name').val(oauthdata['name']);
         $('#reg-form-email,#reg-form-name').prop('disabled', 'true');
         $('.reg-window-content-td').eq(1).detach();
         $('.reg-window').css('width', '284px');
@@ -162,7 +162,7 @@ function processRegister() {
     if (error.length != 0) {
         showError(error[0]);
         $(".reg-window-content input").removeAttr('disabled');
-        if (vkdata) {
+        if (oauthdata) {
             $('#reg-form-email,#reg-form-name').prop('disabled', 'true');
         }
         return false;
@@ -233,7 +233,7 @@ function processRegister() {
                 updateCaptcha('.reg-window');
                 showError(errorText);
                 $(".reg-window-content input").removeAttr('disabled');
-                if (vkdata) {
+                if (oauthdata) {
                     $('#reg-form-email,#reg-form-name').prop('disabled', 'true');
                 }
             }

@@ -9,7 +9,6 @@ body {
     font-family: Segoe UI;
     margin: 0;
     padding: 0;
-    background: #f7f7f7;
 }
 
 a {
@@ -43,7 +42,7 @@ a:hover {
 }
 
 .content {
-    width: calc(100% - 415px);
+    width: calc(100% - 515px);
     margin-left: 101px;
     color: black;
     padding: 20px;
@@ -64,10 +63,11 @@ a:hover {
 
 .right {
     min-height: 100%;
+    //height: 100%;
     background: #f7f7f7;
     color: black;
     width: 280px;
-    text-align: center;
+    //text-align: center;
     position: absolute;
     right: 0;
     top: 0;
@@ -88,8 +88,6 @@ a:hover {
 
 .blog {
     padding: 9px;
-    border: 1px solid #ccc;
-    background: #f1f1f1;
     color: black;
     margin-bottom: 20px;
 }
@@ -110,7 +108,9 @@ a:hover {
 }
 
 .blog-info {
-
+    padding-top: 5px;
+    margin-top: 9px;
+    border-top: 1px solid #dddddd;
 }
 
 .links, .copyright {
@@ -166,12 +166,6 @@ a:hover {
     width: 24px;
     margin-right: 12px;
     float: left;
-}
-
-.right-icon {
-    width: 26px;
-    float: left;
-    margin-right: 9px;
 }
 
 .no-center {
@@ -411,8 +405,58 @@ img.captcha {
     font-weight: normal;
 }
 
-#language-picker {
+#userbar {
     text-align: left;
     font-size: 20px;
     font-weight: bold;
+}
+
+.username {
+    font-size: 16px;
+}
+
+img.flag {
+    width: 26px;
+}
+
+.right-text {
+    float: right;
+}
+
+.b-content {
+    padding: 0 30px 30px 30px;
+}
+
+.b-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.b-text {
+
+}
+
+.right-icon {
+    width: 32px;
+    float: left;
+    margin-right: 9px;
+}
+
+.right-auth-form {
+    font-size: 16px;
+    display: inline;
+}
+
+.right-auth-link {
+    margin-top: -5px;
+}
+
+.right-button {
+    margin-bottom: 5px;
+}
+
+.blogname {
+    color: gray;
+    margin: 2px;
 }

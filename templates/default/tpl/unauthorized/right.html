@@ -1,39 +1,54 @@
     <div class="right">
-        <div class="sub" id="language-picker">
+        <div class="sub" id="userbar">
             Osmium
             <div class="language-picker">
                 <a href="/?lang=ru">
-                    ru
+                    <img src="{{DIR}}/theme/icons/flag_russia.png" class="flag" />
                 </a>
                 <a href="/?lang=en">
-                    en
+                    <img src="{{DIR}}/theme/icons/flag_usa.png" class="flag" />
                 </a>
+            </div>
+
+            <br />
+            <br />
+            <div class="userbar">
+                <div class="right-button">
+                    <a href="#" class="right-auth-link" onclick="openAuthWindow();">
+                        <div class="right-auth-form">
+                            <img src="{{DIR}}/theme/icons/auth.png" class="right-icon" /> {{:authorization}}
+                        </div>
+                    </a>
+                </div>
+                <div class="right-button">
+                    <a href="#" class="right-auth-link"  onclick="openRegWindow();">
+                        <div class="right-auth-form">
+                            <img src="{{DIR}}/theme/icons/reg.png" class="right-icon" /> {{:registration}}
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
 
-        <div class="sub no-center">
-            <a href="#" onclick="openAuthWindow();">
-                <div class="right-auth-form">
-                    <img src="{{DIR}}/theme/icons/auth.png" class="right-icon" /> {{:authorization}}
-                </div>
-            </a>
-            <br />
-            <a href="#" onclick="openRegWindow();">
-                <div class="right-auth-form">
-                    <img src="{{DIR}}/theme/icons/reg.png" class="right-icon" /> {{:registration}}
-                </div>
-            </a>
-            <br />
-            <a href="#" onclick="openAuthWindow();">
-                <div class="right-auth-form">
-                    <img src="{{DIR}}/theme/icons/help.png" class="right-icon" /> {{:help}}
-                </div>
-            </a>
+        <div class="b-content">
+            <div class="b-title">
+                Test
+            </div>
+
+            <div class="b-text">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
+
+                Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            </div>
         </div>
 
-        <div class="sub">
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
+        <div class="b-content">
+            <div class="b-title">
+                Ignat
+            </div>
 
-            Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            <div class="b-text">
+                Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            </div>
         </div>
     </div>

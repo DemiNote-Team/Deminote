@@ -6,12 +6,13 @@
     <meta name="description" content="{{description}}">
     <title>Osmium CMS</title>
     <link rel="stylesheet" href="{{DIR}}/theme/main.css" />
+    <link rel="shortcut icon" href="/favicon.png" />
     <script src="/javascript/JQuery.js"></script>
     <script src="/javascript/JQuery.color.js"></script>
     <script src="/javascript/Base64.js"></script>
     <script src="/javascript/source.js"></script>
     <script language="JavaScript" type="text/javascript">
-        var vkdata = undefined;
+        var oauthdata = undefined;
         {{SCRIPT}}
     </script>
     <script src="{{DIR}}/script/local.js"></script>
@@ -58,7 +59,9 @@
                                             <img src="{{DIR}}/theme/icons/vk-login.png" class="login-enter-img" />
                                         </a>
                                         <br />
-                                        <img src="{{DIR}}/theme/icons/google-login.png" class="login-enter-img" />
+                                        <a href="https://accounts.google.com/o/oauth2/auth?redirect_uri=http%3A%2F%2F{{HTTP_HOST}}%2Foauth%2Fgoogle&response_type=code&client_id=546892681357-l19ae302o7ah0ea4bae8ona24uminq27.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile">
+                                            <img src="{{DIR}}/theme/icons/google-login.png" class="login-enter-img" />
+                                        </a>
                                     </td>
                                 </tr>
                                 <tr class="auth-window-content-tr auth-window-buttons">
@@ -109,7 +112,9 @@
                                             <img src="{{DIR}}/theme/icons/vk-login.png" class="login-enter-img" />
                                         </a>
                                         <br />
-                                        <img src="{{DIR}}/theme/icons/google-login.png" class="login-enter-img" />
+                                        <a href="https://accounts.google.com/o/oauth2/auth?redirect_uri=http%3A%2F%2F{{HTTP_HOST}}%2Foauth%2Fgoogle&response_type=code&client_id=546892681357-l19ae302o7ah0ea4bae8ona24uminq27.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile">
+                                            <img src="{{DIR}}/theme/icons/google-login.png" class="login-enter-img" />
+                                        </a>
                                     </td>
                                 </tr>
                                 <tr class="reg-window-content-tr reg-window-buttons">

@@ -4,14 +4,21 @@
     $email = $_POST['email'];
     $name = $_POST['captcha'];
     $captcha = $_POST['captcha'];
-    $vk_id = '0';
+    $oauth_id = '0';
     $error = [];
 
     if (isset($_SESSION['vk_data'])) {
-        $vk_data = json_decode($_SESSION['vk_data'], true);
-        $name = $vk_data['name'];
-        $email = $vk_data['email'];
-        $vk_id = $vk_data['vk_id'];
+        $oauth_data = json_decode($_SESSION['vk_data'], true);
+        $oauth_type = 'vk';
+        $name = $oauth_data['name'];
+        $email = $oauth_data['email'];
+        $oauth_id = $oauth_data['vk_id'];
+    } else if (isset($_SESSION['google_data'])) {
+        $oauth_data = json_decode($_SESSION['google_data'], true);
+        $oauth_type = 'google';
+        $name = $oauth_data['name'];
+        $email = $oauth_data['email'];
+        $oauth_id = $oauth_data['google_id'];
     }
 
     if (other::length($login) < 4) $error[] = 'small-login';
@@ -42,9 +49,9 @@
         $date = time();
         $session = other::generateSession();
         $_SESSION['session'] = $session;
-        $db->query("INSERT INTO `user` (`login`, `password`, `email`, `name`, `reg_date`, `session`, `group`, `vk_id`)
+        $db->query("INSERT INTO `user` (`login`, `password`, `email`, `name`, `reg_date`, `session`, `group`, `{$oauth_type}_id`)
                             values
-                            ('$login', '$password', '$email', '$name', '$date', '$session', '1', '$vk_id')");
+                            ('$login', '$password', '$email', '$name', '$date', '$session', '1', '$oauth_id')");
         setcookie('session', $session, time() + 3600 * 60 * 60, '/');
         die('{"success": 1, "session": "' . $session . '"}');
     }
