@@ -5,6 +5,20 @@ $(document).ready(function () {
         if (this.value.length > 0) this.style.textTransform = 'uppercase';
         else this.style.textTransform = 'none';
     });
+
+    if (vkdata) {
+        vkdata = JSON.parse(vkdata);
+    }
+
+    var uri = location.href.split('/');
+    if (uri[uri.length - 1] == '#continuereg' && vkdata) {
+        openRegWindow();
+        $('#reg-form-email').val(vkdata['email']);
+        $('#reg-form-name').val(vkdata['name']);
+        $('#reg-form-email,#reg-form-name').prop('disabled', 'true');
+        $('.reg-window-content-td').eq(1).detach();
+        $('.reg-window').css('width', '284px');
+    }
 });
 
 function showError(text) {
@@ -49,12 +63,61 @@ function closeRegWindow() {
     $(".reg-window").hide();
 }
 
-function updateCaptcha() {
-    $('img.captcha').each(function () {
+function updateCaptcha(div) {
+    $(div + ' img.captcha').each(function () {
         this.src = this.src + Math.floor(Math.random() * 100);
     });
     $('#auth-form-captcha,#reg-form-captcha').val('');
     $('#auth-form-captcha,#reg-form-captcha').css('text-transform', 'none');
+}
+
+function processAuthorizing() {
+    $(".auth-window-content input").prop('disabled', 'true');
+    $(".hidden-layout").show();
+    var login = $('#auth-form-login').val();
+    var password = $('#auth-form-password').val();
+    var captcha = $('#auth-form-captcha').val();
+
+    $(".loading-layout").css('display', 'inline-block');
+    sendAuthorizeRequest({
+        login: login,
+        password: password,
+        captcha: captcha
+    }, function (data) {
+        console.log(data);
+        $(".loading-layout").hide();
+        try {
+            data = JSON.parse(data);
+        } catch (e) {
+            showError("Произошла ошибка. Попробуйте перезагрузить страницу.");
+            return false;
+        }
+        if (data.success) {
+            var session = data.session;
+            document.cookie = 'session=' + session + '; path=/;';
+            location.href = '/';
+        }
+        if (data.error) {
+            var errorText = '';
+            switch (data.desc) {
+                case 'wrong-password':
+                    errorText = 'Неверный пароль или пользователя не существует.';
+                    break;
+                case 'wrong-captcha':
+                    errorText = 'Неверный код с картинки.';
+                    break
+                default:
+                    errorText = "Произошла ошибка. Попробуйте перезагрузить страницу.";
+                    break;
+            }
+            updateCaptcha('.auth-window');
+            showError(errorText);
+            $(".auth-window-content input").removeAttr('disabled');
+        }
+    }, function () {
+        showError("Произошла ошибка. Попробуйте перезагрузить страницу.");
+        $(".loading-layout").hide();
+    });
 }
 
 function processRegister() {
@@ -99,6 +162,9 @@ function processRegister() {
     if (error.length != 0) {
         showError(error[0]);
         $(".reg-window-content input").removeAttr('disabled');
+        if (vkdata) {
+            $('#reg-form-email,#reg-form-name').prop('disabled', 'true');
+        }
         return false;
     }
 
@@ -164,9 +230,12 @@ function processRegister() {
                         errorText = "Произошла ошибка. Попробуйте перезагрузить страницу.";
                         break;
                 }
-                updateCaptcha();
+                updateCaptcha('.reg-window');
                 showError(errorText);
                 $(".reg-window-content input").removeAttr('disabled');
+                if (vkdata) {
+                    $('#reg-form-email,#reg-form-name').prop('disabled', 'true');
+                }
             }
         }, function () {
             showError("Произошла ошибка. Попробуйте перезагрузить страницу.");

@@ -1,5 +1,6 @@
 <?php
     include 'core/core.php';
+    include 'core/head.php';
 
     $content->get('index', [
         'type' => $config['index_type'],

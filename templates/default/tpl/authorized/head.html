@@ -10,7 +10,9 @@
     <script src="/javascript/JQuery.color.js"></script>
     <script src="/javascript/Base64.js"></script>
     <script src="/javascript/source.js"></script>
-
+    <script language="JavaScript" type="text/javascript">
+        {{SCRIPT}}
+    </script>
     <script src="{{DIR}}/script/local.js"></script>
 </head>
 <body>
@@ -48,7 +50,7 @@
                                         <input type="password" id="auth-form-password" placeholder="{{:enter_password}}.." />
                                         <br />
                                         <input type="text" maxlength="5" id="auth-form-captcha" placeholder="{{:captcha}}.." />
-                                        <img class="captcha" onclick="updateCaptcha();" src="/public/captcha.php?" id="auth-form-captcha-img" />
+                                        <img class="captcha" onclick="updateCaptcha('.auth-window');" src="/public/captcha.php?" id="auth-form-captcha-img" />
                                     </td>
                                     <td class="auth-window-content-td auth-window-content-td-left">
                                         <img src="{{DIR}}/theme/icons/vk-login.png" class="login-enter-img" />
@@ -58,7 +60,7 @@
                                 </tr>
                                 <tr class="auth-window-content-tr auth-window-buttons">
                                     <td class="auth-window-content-td auth-window-buttons" colspan="2">
-                                        <button>{{:enter}}</button>
+                                        <button onclick="processAuthorizing();">{{:enter}}</button>
                                         <div class="auth-form-forgot-password">
                                             <a href="/forgot-password/">{{:forgot_password}}</a><br /><a href="#" onclick="closeAuthWindow(); openRegWindow();">{{:registration}}</a>
                                         </div>
@@ -97,10 +99,12 @@
                                         <input type="text" id="reg-form-name" placeholder="{{:your_name}}.." />
                                         <br />
                                         <input type="text" maxlength="5" id="reg-form-captcha" placeholder="{{:captcha}}.." />
-                                        <img class="captcha" onclick="updateCaptcha();" src="/public/captcha.php?" id="reg-form-captcha-img" />
+                                        <img class="captcha" onclick="updateCaptcha('.reg-window');" src="/public/captcha.php?" id="reg-form-captcha-img" />
                                     </td>
                                     <td class="reg-window-content-td reg-window-content-td-left">
-                                        <img src="{{DIR}}/theme/icons/vk-login.png" class="login-enter-img" />
+                                        <a href="https://oauth.vk.com/authorize?client_id={{VK_APP_ID}}&scope=email&redirect_uri=http://{{HTTP_HOST}}/oauth/vk/&response_type=code&v=5.14">
+                                            <img src="{{DIR}}/theme/icons/vk-login.png" class="login-enter-img" />
+                                        </a>
                                         <br />
                                         <img src="{{DIR}}/theme/icons/google-login.png" class="login-enter-img" />
                                     </td>

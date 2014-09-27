@@ -27,6 +27,7 @@
                 $content = str_ireplace('{{:' . $value . '}}', $lang[$value], $content);
             } //applying lang
             $content = str_ireplace('{{DIR}}', '/' . $this->dir, $content); //replacing DIR param
+            $content = str_ireplace('{{HTTP_HOST}}', $_SERVER['HTTP_HOST'], $content); //replacing DIR param
             echo $content;
         }
     }

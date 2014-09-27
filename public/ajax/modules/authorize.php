@@ -1,0 +1,22 @@
+<?php
+    $login = $_POST['login'];
+    $password = $_POST['password'];
+    $captcha = $_POST['captcha'];
+    $error = [];
+
+    $login_q = $db->query("SELECT * FROM `user` WHERE `login` = '" . $db->filter($login) . "'");
+    if ($db->num_rows($login_q) == 0) $error[] = 'wrong-password';
+    if ($_SESSION['captcha'] != mb_strtoupper($captcha, 'UTF-8')) $error[] = 'wrong-captcha' . $_SESSION['captcha'];
+    $user = $db->fetch($login_q);
+    if ($user['password'] != other::hash($password)) $error[] = 'wrong-password';
+
+    if (count($error) > 0) {
+        $_SESSION['captcha'] = md5(time() . mt_rand(17, 49) . md5(mt_rand(0, 494949)));
+        die('{"error": 1, "desc": "' . $error[0] . '"}');
+    } else {
+        $session = other::generateSession();
+        $_SESSION['session'] = $session;
+        $db->query("UPDATE `user` SET `session` = '$session' WHERE `id` = '$user[id]'");
+        setcookie('session', $session, time() + 3600 * 60 * 60, '/');
+        die('{"success": 1, "session": "' . $session . '"}');
+    }

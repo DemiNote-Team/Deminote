@@ -14,9 +14,3 @@
     $view = new view("templates/default", 'en', $user);
     $config = $db->fetch($db->query("SELECT * FROM `config` LIMIT 1"));
     $content = new content();
-
-    if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
-        $view->invoke('head', ['keywords' => $config['keywords'], 'description' => $config['description']]);
-        $view->invoke('sidebar', ['title' => 'Osmium CMS']);
-        $view->invoke('content-open');
-    }

@@ -14,4 +14,8 @@
             return htmlspecialchars($string);
         }
 
+        public static function generateSession() {
+            return md5(mt_rand(0, 49) . time() . mt_rand(49, 4949));
+        }
+
     }
