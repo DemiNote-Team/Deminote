@@ -7,7 +7,7 @@
     $vk_id = '0';
     $error = [];
 
-    if ($_SESSION['vk_data']) {
+    if (isset($_SESSION['vk_data'])) {
         $vk_data = json_decode($_SESSION['vk_data'], true);
         $name = $vk_data['name'];
         $email = $vk_data['email'];

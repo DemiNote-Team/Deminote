@@ -14,7 +14,7 @@
         $view->invoke('head', [
             'keywords' => $config['keywords'],
             'description' => $config['description'],
-            'script' => (isset($vk_data) ? ('var vkdata = \'' . $vk_data . '\';') : ''),
+            'script' => (isset($vk_data) ? ('vkdata = \'' . $vk_data . '\';') : ''),
             'vk_app_id' => $config['vk_app_id']
         ]);
         $view->invoke('sidebar', ['title' => 'Osmium CMS']);
