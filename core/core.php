@@ -10,7 +10,7 @@
     });
 
     $db = new database("localhost", "root", "123456", "osmium");
-    $user = new user($db);
-    $view = new view("templates/default", 'en', $user);
     $config = $db->fetch($db->query("SELECT * FROM `config` LIMIT 1"));
+    $user = new user($db);
+    $view = new view("templates/" . $config['template'], (isset($_SESSION['lang']) ? $_SESSION['lang'] : $config['default_lang']), $config['default_lang'], $user);
     $content = new content();

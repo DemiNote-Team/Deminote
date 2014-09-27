@@ -1,5 +1,11 @@
 <?php
 
+    if (isset($_GET['lang'])) {
+        $_SESSION['lang'] = $_GET['lang'];
+        header('Location: /');
+        die();
+    }
+
     if (isset($_SESSION['vk_data'])) {
         $vk_data = $_SESSION['vk_data'];
     }

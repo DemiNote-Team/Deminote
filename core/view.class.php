@@ -4,12 +4,12 @@
         protected $lang; //language
         protected $authorized;
 
-        public function __construct($dir, $lang, $user) {
+        public function __construct($dir, $lang, $default_lang, $user) {
             $this->dir = $dir; //initializing directory
             $this->authorized = (bool) $user->authorized;
             $this->lang = $lang;
             if (!file_exists(ROOT . '/' . $this->dir . '/lang/' . $lang . '.ini'))
-                $this->lang = 'ru'; //default language
+                $this->lang = $default_lang;
         }
 
         public function invoke($template, $params = []) { //can be called w/o params

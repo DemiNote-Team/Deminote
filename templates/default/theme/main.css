@@ -404,3 +404,15 @@ img.captcha {
     color: white;
     padding: 11px;
 }
+
+.language-picker {
+    display: inline-block;
+    float: right;
+    font-weight: normal;
+}
+
+#language-picker {
+    text-align: left;
+    font-size: 20px;
+    font-weight: bold;
+}

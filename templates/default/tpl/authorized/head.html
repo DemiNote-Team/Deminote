@@ -53,7 +53,9 @@
                                         <img class="captcha" onclick="updateCaptcha('.auth-window');" src="/public/captcha.php?" id="auth-form-captcha-img" />
                                     </td>
                                     <td class="auth-window-content-td auth-window-content-td-left">
-                                        <img src="{{DIR}}/theme/icons/vk-login.png" class="login-enter-img" />
+                                        <a href="https://oauth.vk.com/authorize?client_id={{VK_APP_ID}}&scope=email&redirect_uri=http://{{HTTP_HOST}}/oauth/vk/&response_type=code&v=5.14">
+                                            <img src="{{DIR}}/theme/icons/vk-login.png" class="login-enter-img" />
+                                        </a>
                                         <br />
                                         <img src="{{DIR}}/theme/icons/google-login.png" class="login-enter-img" />
                                     </td>
