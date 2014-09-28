@@ -3,10 +3,8 @@
     class router {
         public $module;
         protected $params;
-        protected $content;
 
-        public function __construct(content $content) {
-            $this->content = $content;
+        public function __construct() {
             $path = explode('/', $_SERVER['REQUEST_URI']);
             $this->module = (empty($path[1]) ? 'index' : $path[1]);
             unset($path[0], $path[1]);
@@ -14,6 +12,6 @@
         }
 
         public function route() {
-            $this->content->get($this->module, $this->params);
+            content::get($this->module, $this->params);
         }
     }

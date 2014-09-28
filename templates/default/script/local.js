@@ -81,7 +81,7 @@ function processAuthorizing() {
     var captcha = $('#auth-form-captcha').val();
 
     $(".loading-layout").css('display', 'inline-block');
-    sendAuthorizeRequest({
+    sendAjax('authorize', {
         login: login,
         password: password,
         captcha: captcha
@@ -172,7 +172,7 @@ function processRegister() {
 
     $(".loading-layout").css('display', 'inline-block');
 
-    sendRegisterRequest({
+    sendAjax('register', {
             login: login,
             password: password1,
             email: email,

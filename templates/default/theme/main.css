@@ -75,7 +75,7 @@ a:hover {
     height: 100%;
     background: #f7f7f7;
     color: black;
-    width: 279px;
+    width: 299px;
     border-left: 1px solid #ccc;
     position: absolute;
     right: 0;
@@ -130,6 +130,7 @@ a:hover {
 
 .copyright {
     float: right;
+    text-align: right;
 }
 
 .links a {
@@ -404,10 +405,7 @@ img.captcha {
 }
 
 .blog-link {
-    display: inline-block;
-    background: #222;
-    color: white;
-    padding: 11px;
+    padding: 2px 2px 2px 17px;
 }
 
 .language-picker {
@@ -432,6 +430,14 @@ img.flag {
 
 .right-text {
     float: right;
+}
+
+.right-div {
+    text-align: right;
+}
+
+.gray {
+    color: gray;
 }
 
 .b-content {
@@ -470,4 +476,28 @@ img.flag {
 .blogname {
     color: gray;
     margin: 2px;
+}
+
+.pointer {
+    width: 16px;
+}
+
+.last-comment {
+    font-size: 14px;
+    padding: 3px;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+a.not-a-link {
+    cursor: default;
+    text-decoration: none;
+    border-bottom: none !important;
+    color: black;
+}
+
+.not-a-link * {
+    cursor: default;
+    text-decoration: none;
+    border-bottom: none !important;
 }

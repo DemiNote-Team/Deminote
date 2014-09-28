@@ -4,4 +4,4 @@
 
     $router->route();
 
-    include 'core/foot.php';
+    if (!other::checkAjax()) include 'core/foot.php';

@@ -6,7 +6,7 @@
             die();
         }
         $_SESSION['lang'] = $_GET['lang'];
-        header('Location: /');
+        header('Location: ' . (isset($_GET['return']) ? $_GET['return'] : '/'));
         die();
     }
 
@@ -43,4 +43,4 @@
         $view->invoke('content-open');
     }
 
-    $router = new router($content);
+    $router = new router();

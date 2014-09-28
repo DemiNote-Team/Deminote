@@ -31,4 +31,8 @@
             return $new_array;
         }
 
+        public static function formatTime($time) {
+            return "41 минуту назад";
+        }
+
     }

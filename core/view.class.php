@@ -12,7 +12,7 @@
                 $this->lang = $default_lang;
         }
 
-        public function invoke($template, $params = []) { //can be called w/o params
+        public function invoke($template, $params = [], $return = false) { //can be called w/o params
             $filename = ROOT . '/' . $this->dir . '/tpl/' . ($this->authorized ? '' : 'un') . 'authorized/' . $template . '.html';
             if (!$this->authorized && !file_exists(ROOT . '/' . $this->dir . '/tpl/unauthorized/' . $template . '.html')) $filename = ROOT . '/' . $this->dir . '/tpl/authorized/' . $template . '.html';
             $lang = parse_ini_file(ROOT . '/' . $this->dir . '/lang/' . $this->lang . '.ini');
@@ -27,8 +27,10 @@
                 $content = str_ireplace('{{:' . $value . '}}', $lang[$value], $content);
             } //applying lang
             $content = str_ireplace('{{DIR}}', '/' . $this->dir, $content); //replacing DIR param
+            $content = str_ireplace('{{URI}}', urlencode(other::filter($_SERVER['REQUEST_URI'])), $content); //replacing DIR param
             $content = str_ireplace('{{HTTP_HOST}}', $_SERVER['HTTP_HOST'], $content); //replacing DIR param
-            echo $content;
+            if (!$return) echo $content;
+            return $content;
         }
     }
 ?>
