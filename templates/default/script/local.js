@@ -1,12 +1,14 @@
 var error_handle = 0;
 
 $(document).ready(function () {
+    lang = JSON.parse(lang);
+
     $('#reg-form-captcha,#auth-form-captcha').on('keyup', function () {
         if (this.value.length > 0) this.style.textTransform = 'uppercase';
         else this.style.textTransform = 'none';
     });
 
-    if (oauthdata) {
+    if (oauthdata != 0) {
         oauthdata = JSON.parse(oauthdata);
     }
 
@@ -89,7 +91,7 @@ function processAuthorizing() {
         try {
             data = JSON.parse(data);
         } catch (e) {
-            showError("Произошла ошибка. Попробуйте перезагрузить страницу.");
+            showError(lang.error_happened_refresh_page);
             return false;
         }
         if (data.success) {
@@ -101,13 +103,13 @@ function processAuthorizing() {
             var errorText = '';
             switch (data.desc) {
                 case 'wrong-password':
-                    errorText = 'Неверный пароль или пользователя не существует.';
+                    errorText = lang.wrong_password_or_incorrect_user;
                     break;
                 case 'wrong-captcha':
-                    errorText = 'Неверный код с картинки.';
+                    errorText = lang.incorrect_captcha;
                     break
                 default:
-                    errorText = "Произошла ошибка. Попробуйте перезагрузить страницу.";
+                    errorText = lang.error_happened_refresh_page;
                     break;
             }
             updateCaptcha('.auth-window');
@@ -115,7 +117,7 @@ function processAuthorizing() {
             $(".auth-window-content input").removeAttr('disabled');
         }
     }, function () {
-        showError("Произошла ошибка. Попробуйте перезагрузить страницу.");
+        showError(lang.error_happened_refresh_page);
         $(".loading-layout").hide();
     });
 }
@@ -133,31 +135,31 @@ function processRegister() {
     var error = [];
 
     if (login.length < 4)
-        error.push('Логин должен быть не менее четырех символов.');
+        error.push(lang.login_cannot_be_small);
     if (login.length > 10)
-        error.push('Логин должен быть не более десяти символов.');
+        error.push(lang.login_cannot_be_big);
     if (!/^([a-zа-я0-9\-]+)$/im.test(login))
-        error.push('Неверный логин. Используйте только буквы, цифры и символ "-".');
+        error.push(lang.incorrect_login_symbols_use);
     if (/^([0-9]+)$/im.test(login[0]))
-        error.push('Неверный логин. Логин не может начинаться с цифры.');
+        error.push(lang.login_cannot_start_from_number);
     if (/([\-]{2,20})/im.test(login))
-        error.push('Неверный логин. Символы "-" не могут идти подряд.');
+        error.push(lang.do_not_use_symbols_in_a_row);
     if (/([а-я]+)/im.test(login) && /([a-z]+)/im.test(login))
-        error.push('Неверный логин. Не используйте кириллицу и латиницу одновременно.');
+        error.push(lang.do_not_use_2_alphabets);
     if (password1 != password2)
-        error.push('Пароли не совпадают.');
+        error.push(login.not_the_same_passwords);
     if (password1.length < 8)
-        error.push('Пароль должен быть не менее восьми символов.');
+        error.push(lang.password_cannot_be_small);
     if (password1.length > 32)
-        error.push('Пароль должен быть не более тридцати двух символов.');
+        error.push(lang.password_cannot_be_small);
     if (name.length < 2)
-        error.push('Имя должно быть не менее двух символов.');
+        error.push(lang.name_cannot_be_small);
     if (name.length > 24)
-        error.push('Имя должно быть не более двадцати четырех символов.');
+        error.push(lang.name_cannot_be_big);
     if (!/^([a-z0-9\.\-\_]{1,20})@([a-z0-9\-]{1,20})\.([a-z]{1,20})$/im.test(email))
-        error.push('Неверный электронный адрес.');
+        error.push(lang.incorrect_email);
     if (captcha.length != 5)
-        error.push('Неверный код с картинки.');
+        error.push(lang.incorrect_captcha);
 
     if (error.length != 0) {
         showError(error[0]);
@@ -182,7 +184,7 @@ function processRegister() {
             try {
                 data = JSON.parse(data);
             } catch (e) {
-                showError("Произошла ошибка. Попробуйте перезагрузить страницу.");
+                showError(lang.error_happened_refresh_page);
                 return false;
             }
             if (data.success) {
@@ -194,40 +196,40 @@ function processRegister() {
                 var errorText = '';
                 switch (data.desc) {
                     case 'small-login':
-                        errorText = 'Слишком маленький логин.';
+                        errorText = lang.login_cannot_be_small;
                         break;
                     case 'big-login':
-                        errorText = 'Слишком большой логин.';
+                        errorText = lang.login_cannot_be_big;
                         break;
                     case 'small-password':
-                        errorText = 'Слишком маленький пароль.';
+                        errorText = lang.password_cannot_be_small;
                         break;
                     case 'big-password':
-                        errorText = 'Слишком большой пароль.';
+                        errorText = lang.password_cannot_be_big;
                         break;
                     case 'small-name':
-                        errorText = 'Слишком маленькое имя.';
+                        errorText = lang.name_cannot_be_small;
                         break;
                     case 'big-name':
-                        errorText = 'Слишком большое имя.';
+                        errorText = lang.name_cannot_be_big;
                         break;
                     case 'wrong-login':
-                        errorText = 'Неверный логин.';
+                        errorText = lang.incorrect_login_symbols_use;
                         break;
                     case 'login-closed':
-                        errorText = 'Этот логин уже занят.';
+                        errorText = lang.login_closed;
                         break;
                     case 'bad-passwords':
-                        errorText = 'Пароли не совпадают.';
+                        errorText = lang.not_the_same_password;
                         break;
                     case 'wrong-captcha':
-                        errorText = 'Неверный код с картинки!';
+                        errorText = lang.incorrect_captcha;
                         break;
                     case 'wrong-email':
-                        errorText = 'Неверный электронный адрес.';
+                        errorText = lang.incorrect_email;
                         break;
                     default:
-                        errorText = "Произошла ошибка. Попробуйте перезагрузить страницу.";
+                        errorText = lang.error_happened_refresh_page;
                         break;
                 }
                 updateCaptcha('.reg-window');
@@ -238,7 +240,7 @@ function processRegister() {
                 }
             }
         }, function () {
-            showError("Произошла ошибка. Попробуйте перезагрузить страницу.");
+            showError(lang.error_happened_refresh_page);
             $(".loading-layout").hide();
         });
 }

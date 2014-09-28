@@ -5,20 +5,15 @@
     $name = $_POST['captcha'];
     $captcha = $_POST['captcha'];
     $oauth_id = '0';
+    $oauth_type = 'google';
     $error = [];
 
-    if (isset($_SESSION['vk_data'])) {
+    if (isset($_SESSION['oauth_data'])) {
         $oauth_data = json_decode($_SESSION['vk_data'], true);
-        $oauth_type = 'vk';
+        $oauth_type = $oauth_data['type'];
         $name = $oauth_data['name'];
         $email = $oauth_data['email'];
-        $oauth_id = $oauth_data['vk_id'];
-    } else if (isset($_SESSION['google_data'])) {
-        $oauth_data = json_decode($_SESSION['google_data'], true);
-        $oauth_type = 'google';
-        $name = $oauth_data['name'];
-        $email = $oauth_data['email'];
-        $oauth_id = $oauth_data['google_id'];
+        $oauth_id = $oauth_data['account_id'];
     }
 
     if (other::length($login) < 4) $error[] = 'small-login';

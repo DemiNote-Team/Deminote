@@ -53,9 +53,10 @@
                 $user = [
                     "name" => $name,
                     "email" => $email,
-                    "google_id" => $user_id
+                    "account_id" => $user_id,
+                    "type" => 'google'
                 ];
-                $_SESSION['google_data'] = json_encode($user);
+                $_SESSION['oauth_data'] = json_encode($user);
                 header('Location: /#continuereg');
                 die();
             }

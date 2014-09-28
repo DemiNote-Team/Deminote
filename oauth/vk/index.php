@@ -54,9 +54,10 @@
                     $user = [
                         "name" => $name,
                         "email" => $email,
-                        "vk_id" => $user_id
+                        "account_id" => $user_id,
+                        "type" => 'vk'
                     ];
-                    $_SESSION['vk_data'] = json_encode($user);
+                    $_SESSION['oauth_data'] = json_encode($user);
                     header('Location: /#continuereg');
                     die();
                 }

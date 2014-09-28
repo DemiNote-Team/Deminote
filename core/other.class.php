@@ -11,11 +11,15 @@
         }
 
         public static function filter($string) {
-            return htmlspecialchars($string);
+            return htmlspecialchars($string, ENT_QUOTES);
         }
 
         public static function generateSession() {
             return md5(mt_rand(0, 49) . time() . mt_rand(49, 4949));
+        }
+
+        public static function checkAjax() {
+            return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
         }
 
     }
