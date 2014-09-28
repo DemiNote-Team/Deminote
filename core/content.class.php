@@ -2,12 +2,11 @@
 
     class content {
 
-        public function get($module, $params = []) {
+        public function get($module, $arg = []) {
             global $view, $db, $user, $config;
-            foreach ($params as $key => $value) {
-                $$key = $value;
-            }
-            require ROOT . '/modules/' . $module . '.php';
+            if (file_exists(ROOT . '/modules/' . $module . '.php'))
+                require ROOT . '/modules/' . $module . '.php';
+            else echo "&nbsp;<!-- NO MODULE -->&nbsp;";
         }
 
     }

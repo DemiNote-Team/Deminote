@@ -22,4 +22,13 @@
             return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
         }
 
+        public static function rekeyArray($array) {
+            if (!is_array($array)) return false;
+            $new_array = [];
+            foreach ($array as $value) {
+                $new_array[] = $value;
+            }
+            return $new_array;
+        }
+
     }

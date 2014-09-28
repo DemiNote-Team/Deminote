@@ -42,3 +42,5 @@
         $view->invoke('sidebar', ['title' => 'Osmium CMS']);
         $view->invoke('content-open');
     }
+
+    $router = new router($content);
