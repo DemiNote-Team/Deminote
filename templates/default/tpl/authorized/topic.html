@@ -1,6 +1,6 @@
-    <div class="blog">
+    <div class="blog {{TOUCHABLE}}">
         <a href="/view/{{ID}}/{{NAME}}.html" class="{{NOT_A_LINK}}">
-            <div class="blog-title">
+            <div class="blog-title {{BIG_TEXT}}">
                 {{TITLE}}
             </div>
         </a>
@@ -13,5 +13,11 @@
 
         <div class="blog-info">
             <a href="/profile/{{LOGIN}}"><img src="{{DIR}}/theme/icons/user.png" class="user-icon" /> {{LOGIN}}</a> - {{DATE}}
+
+            <span class="right-text">
+                <img src="{{DIR}}/theme/icons/plus_circle{{PLUS_PASSIVE}}.png" class="rating-img" />
+                <span class="rating {{RATING_CLASS}}">{{RATING}}</span>
+                <img src="{{DIR}}/theme/icons/minus_circle{{MINUS_PASSIVE}}.png" class="rating-img" />
+            </span>
         </div>
     </div>

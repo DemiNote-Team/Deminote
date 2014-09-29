@@ -11,6 +11,7 @@
     <script src="/javascript/JQuery.color.js"></script>
     <script src="/javascript/Base64.js"></script>
     <script src="/javascript/source.js"></script>
+    <script src="/javascript/ckeditor/ckeditor.js"></script>
     <script language="JavaScript" type="text/javascript">
         var oauthdata = 0;
         {{SCRIPT}}
@@ -18,19 +19,19 @@
     <script src="{{DIR}}/script/local.js"></script>
 </head>
 <body>
+    <div class="error-layout">
+        <b>{{:error}}!</b>
+        <br />
+        <br />
+        <div class="error-text">
+            {{:error_happened}}.
+        </div>
+    </div>
+    <div class="loading-layout">
+        <img src="/public/images/loading.gif" class="loading-image" />
+    </div>
     <div class="hidden-layout">
         <div class="opacity-layout" onclick="hideLayout();"></div>
-        <div class="loading-layout">
-            <img src="/public/images/loading.gif" class="loading-image" />
-        </div>
-        <div class="error-layout">
-            <b>{{:error}}!</b>
-            <br />
-            <br />
-            <div class="error-text">
-            {{:error_happened}}.
-            </div>
-        </div>
         <table class="fullscreen">
             <tr>
                 <td>
@@ -55,11 +56,11 @@
                                         <img class="captcha" onclick="updateCaptcha('.auth-window');" src="/public/captcha.php?" id="auth-form-captcha-img" />
                                     </td>
                                     <td class="auth-window-content-td auth-window-content-td-left">
-                                        <a href="https://oauth.vk.com/authorize?client_id={{VK_APP_ID}}&scope=email&redirect_uri=http://{{HTTP_HOST}}/oauth/vk/&response_type=code&v=5.14">
+                                        <a onclick="void(0);" href="https://oauth.vk.com/authorize?client_id={{VK_APP_ID}}&scope=email&redirect_uri=http://{{HTTP_HOST}}/oauth/vk/&response_type=code&v=5.14">
                                             <img src="{{DIR}}/theme/icons/vk-login.png" class="login-enter-img" />
                                         </a>
                                         <br />
-                                        <a href="https://accounts.google.com/o/oauth2/auth?redirect_uri=http%3A%2F%2F{{HTTP_HOST}}%2Foauth%2Fgoogle&response_type=code&client_id={{GOOGLE_CLIENT_ID}}&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile">
+                                        <a onclick="void(0);" href="https://accounts.google.com/o/oauth2/auth?redirect_uri=http%3A%2F%2F{{HTTP_HOST}}%2Foauth%2Fgoogle&response_type=code&client_id={{GOOGLE_CLIENT_ID}}&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile">
                                             <img src="{{DIR}}/theme/icons/google-login.png" class="login-enter-img" />
                                         </a>
                                     </td>
@@ -108,11 +109,11 @@
                                         <img class="captcha" onclick="updateCaptcha('.reg-window');" src="/public/captcha.php?" id="reg-form-captcha-img" />
                                     </td>
                                     <td class="reg-window-content-td reg-window-content-td-left">
-                                        <a href="https://oauth.vk.com/authorize?client_id={{VK_APP_ID}}&scope=email&redirect_uri=http://{{HTTP_HOST}}/oauth/vk/&response_type=code&v=5.14">
+                                        <a onclick="void(0);" href="https://oauth.vk.com/authorize?client_id={{VK_APP_ID}}&scope=email&redirect_uri=http://{{HTTP_HOST}}/oauth/vk/&response_type=code&v=5.14">
                                             <img src="{{DIR}}/theme/icons/vk-login.png" class="login-enter-img" />
                                         </a>
                                         <br />
-                                        <a href="https://accounts.google.com/o/oauth2/auth?redirect_uri=http%3A%2F%2F{{HTTP_HOST}}%2Foauth%2Fgoogle&response_type=code&client_id={{GOOGLE_CLIENT_ID}}&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile">
+                                        <a onclick="void(0);" href="https://accounts.google.com/o/oauth2/auth?redirect_uri=http%3A%2F%2F{{HTTP_HOST}}%2Foauth%2Fgoogle&response_type=code&client_id={{GOOGLE_CLIENT_ID}}&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile">
                                             <img src="{{DIR}}/theme/icons/google-login.png" class="login-enter-img" />
                                         </a>
                                     </td>

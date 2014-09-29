@@ -35,4 +35,8 @@
             return "41 минуту назад";
         }
 
+        public static function jsonDie($arr) {
+            die(json_encode($arr));
+        }
+
     }

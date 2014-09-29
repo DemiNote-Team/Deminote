@@ -7,6 +7,8 @@
     $oauth_id = '0';
     $oauth_type = 'google';
     $error = [];
+    $error_answer = ['error' => 1, 'desc' => ''];
+    $success_answer = ['success' => 1];
 
     if (isset($_SESSION['oauth_data'])) {
         $oauth_data = json_decode($_SESSION['vk_data'], true);
@@ -36,7 +38,8 @@
 
     if (count($error) > 0) {
         $_SESSION['captcha'] = md5(time() . mt_rand(17, 49) . md5(mt_rand(0, 494949)));
-        die('{"error": 1, "desc": "' . $error[0] . '"}');
+        $error_answer['desc'] = $error[0];
+        die(json_encode($error_answer));
     } else {
         $password = other::hash($password);
         $name = $db->filter($name);
@@ -48,5 +51,6 @@
                             values
                             ('$login', '$password', '$email', '$name', '$date', '$session', '1', '$oauth_id')");
         setcookie('session', $session, time() + 3600 * 60 * 60, '/');
-        die('{"success": 1, "session": "' . $session . '"}');
+        $success_answer['session'] = $session;
+        die(json_encode($success_answer));
     }

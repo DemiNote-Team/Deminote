@@ -16,7 +16,7 @@
     }
 
     $last_comments = '';
-    $new_comments_q = $db->query("SELECT `comments`.`user`, `comments`.`time`, `topic`.`name`, `topic`.`id`, `topic`.`translit`, `topic`.`blog`, `user`.`login` FROM `comments`, `topic`, `user` WHERE `comments`.`topic` = `topic`.`id` AND `user`.`id` = `comments`.`user` ORDER BY `time` DESC");
+    $new_comments_q = $db->query("SELECT `comments`.`user`, `comments`.`time`, `topic`.`name`, `topic`.`id`, `topic`.`translit`, `topic`.`blog`, `user`.`login` FROM `comments`, `topic`, `user` WHERE `comments`.`topic` = `topic`.`id` AND `user`.`id` = `comments`.`user` ORDER BY `time` DESC LIMIT 10");
     while ($comment = $db->fetch($new_comments_q)) {
         $topic_name = other::filter($comment['name']);
         $topic_id = (int) $comment['id'];
@@ -39,7 +39,7 @@
     }
 
     $view->invoke('right', [
-        'login' => ($user->authorized ? $user->data['name'] : 'undefined'),
+        'login' => ($user->authorized ? $user->data['login'] : 'undefined'),
         'blog_list' => $blog_list,
         'last_comments' => $last_comments
     ]);

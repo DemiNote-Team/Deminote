@@ -10,7 +10,7 @@
     $topics_q = $db->query("SELECT `topic`.*, `user`.`login` FROM `topic`, `user` WHERE `user`.`id` = `topic`.`user` ORDER BY `time` DESC LIMIT $limit, $top");
     while ($topic = $db->fetch($topics_q)) {
         $blog = $db->fetch($db->query("SELECT * FROM `blog` WHERE `id` = '" . (int) $topic['blog'] . "'"));
-        $view->invoke('blog', [
+        $view->invoke('topic', [
             'title' => other::filter($topic['name']),
             'date' => other::formatTime($topic['time']),
             'blog' => $blog['name'],

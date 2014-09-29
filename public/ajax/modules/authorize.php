@@ -3,6 +3,8 @@
     $password = $_POST['password'];
     $captcha = $_POST['captcha'];
     $error = [];
+    $error_answer = ['error' => 1, 'desc' => 'error'];
+    $success_answer = ['success' => 1];
 
     $login_q = $db->query("SELECT * FROM `user` WHERE `login` = '" . $db->filter($login) . "'");
     if ($db->num_rows($login_q) == 0) $error[] = 'wrong-password';
@@ -12,11 +14,13 @@
 
     if (count($error) > 0) {
         $_SESSION['captcha'] = md5(time() . mt_rand(17, 49) . md5(mt_rand(0, 494949)));
-        die('{"error": 1, "desc": "' . $error[0] . '"}');
+        $error_answer['desc'] = $error[0];
+        die(json_encode($error_answer));
     } else {
         $session = other::generateSession();
         $_SESSION['session'] = $session;
         $db->query("UPDATE `user` SET `session` = '$session' WHERE `id` = '$user[id]'");
         setcookie('session', $session, time() + 3600 * 60 * 60, '/');
-        die('{"success": 1, "session": "' . $session . '"}');
+        $success_answer['session'] = $session;
+        die(json_encode($success_answer));
     }

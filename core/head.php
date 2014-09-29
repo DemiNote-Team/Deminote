@@ -1,5 +1,7 @@
 <?php
 
+    $router = new router();
+
     if (isset($_GET['lang'])) {
         if (!preg_match("@^([a-z]{2,10})$@sui", $_GET['lang'])) {
             header('Location: /');
@@ -31,6 +33,9 @@
     $langfile = json_encode($langdata);
     $script .= "\r\n        var lang = '$langfile';";
 
+    if ($router->module == 'view' || ($router->module == 'index' && $config['index_type'] == '2'))
+        $script .= "\r\n        var topic = " . ($router->module == 'view' ? other::filter($router->params[0]) : $config['index_view']) . ";";
+
     if (!other::checkAjax()) {
         $view->invoke('head', [
             'keywords' => $config['keywords'],
@@ -42,5 +47,3 @@
         $view->invoke('sidebar', ['title' => 'Osmium CMS']);
         $view->invoke('content-open');
     }
-
-    $router = new router();

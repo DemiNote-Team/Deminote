@@ -21,7 +21,42 @@ $(document).ready(function () {
         $('.reg-window-content-td').eq(1).detach();
         $('.reg-window').css('width', '284px');
     }
+
+    process();
 });
+
+function process() {
+    $('.comment').each(function (i, v) {
+        $(this).css('margin-left', (55 * Math.min(parseInt($(this).attr('deep')), 9)) + 'px');
+    });
+
+    $('.touchable .plus-rating-img, .touchable .minus-rating-img').on('mouseenter', function () {
+        this.src = this.src.replace('_passive', '');
+    }).on('mouseleave', function () {
+        this.src = this.src.replace('.png', '_passive.png');
+    });
+
+    var count = 0;
+    $('a').each(function (i, v) {
+        if (this.onclick == null) {
+            $(this).unbind('click').bind('click', function (event) {
+                var s = this.href.split('/');
+                s.splice(0, 1);
+                s.splice(1, 1);
+                navigate(s.join('/'));
+                event.preventDefault();
+                return false;
+            });
+            count++;
+        }
+    });
+    console.log(count + " links replaced.");
+    try {
+        CKEDITOR.replaceAll();
+    } catch (e) {
+        console.log('Error: ' + e);
+    }
+}
 
 function showError(text) {
     clearTimeout(error_handle);
@@ -30,7 +65,7 @@ function showError(text) {
     div.hide();
     div.css('opacity', '1');
 
-    $(".hidden-layout").show();
+    //$(".hidden-layout").show();
     $(".error-text").html(text);
     div.css('display', 'inline-block');
     error_handle = setTimeout(function () {
@@ -243,4 +278,108 @@ function processRegister() {
             showError(lang.error_happened_refresh_page);
             $(".loading-layout").hide();
         });
+}
+
+function addComment() {
+    var text = CKEDITOR.instances.newcomment.getData();
+    sendAjax('addcomment', {
+        text: text,
+        topic: topic
+    }, function (data) {
+        data = JSON.parse(data);
+        console.log(data);
+        if (data.error) {
+            showError(lang.error_happened_refresh_page);
+        }
+        if (data.success) {
+            navigate(location.href);
+            CKEDITOR.instances.newcomment.setData();
+        }
+    }, function () {
+        showError(lang.error_happened_refresh_page);
+    })
+}
+
+function addReply(id) {
+    var text = CKEDITOR.instances.replycomment.getData();
+    sendAjax('addcomment', {
+        text: text,
+        topic: topic,
+        reply: id
+    }, function (data) {
+        console.log(data);
+        data = JSON.parse(data);
+        if (data.error) {
+            showError(lang.error_happened_refresh_page);
+        }
+        if (data.success) {
+            $('.reply-form').detach();
+            navigate(location.href);
+        }
+    }, function () {
+        showError(lang.error_happened_refresh_page);
+    })
+}
+
+function openReplyForm(id) {
+    $('.reply-form').detach();
+    var button = $('#add-comment').outerHTML().replace('addComment();', 'addReply(\'' + id + '\');');
+    var button_cancel = '<button class="add-comment-b" onclick="abortReply();">' + lang.cancel + '</button>';
+    $('#add-comment-form').slideUp(500);
+    $('#comment-' + id).append('<div class="reply-form"><br /><textarea id="replycomment" class="ckeditor reply-textarea"></textarea>' + button + button_cancel + '</div>');
+    try {
+        CKEDITOR.replace('replycomment');
+    } catch (e) {
+        //ну хуле, бывает
+        console.log('Error: ' + e);
+    }
+    setTimeout(function () {
+        jump('comment-' + id);
+    }, 1);
+}
+
+function jump(hash) {
+    location.hash = hash;
+}
+
+function abortReply() {
+    $('.reply-form').detach();
+    $('#add-comment-form').slideDown(500);
+}
+
+function changeFavicon(icon) {
+    $('link[rel="shortcut icon"]').detach();
+    (function() {
+        var link = document.createElement('link');
+        link.type = 'image/x-icon';
+        link.rel = 'shortcut icon';
+        link.href = '/' + icon;
+        document.getElementsByTagName('head')[0].appendChild(link);
+    }());
+}
+
+function navigate(href) {
+    console.log('Navigating to ' + href + '...');
+    changeFavicon('loading.gif');
+    $('.loading-layout').show();
+    sendAjax('getcontent', {
+        link: href
+    }, function (data) {
+        data = JSON.parse(data);
+        console.log(data);
+        if (data.success) {
+            data = Base64.decode(data.html);
+            $('.content').html(data);
+            window.history.replaceState({}, document.title, href);
+            document.body.scrollTop = 0;
+            process();
+            changeFavicon('favicon.png');
+            $('.loading-layout').hide();
+        }
+        if (data.script) {
+            eval(data.script);
+        }
+    }, function () {
+        showError(lang.error_happened_refresh_page);
+    });
 }

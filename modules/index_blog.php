@@ -11,7 +11,7 @@
 
     $topics_q = $db->query("SELECT `topic`.*, `user`.`login` FROM `topic`, `user` WHERE `topic`.`blog` = '" . (int) $id . "' AND `user`.`id` = `topic`.`user` ORDER BY `time` DESC LIMIT $limit, $top");
     while ($topic = $db->fetch($topics_q)) {
-        $view->invoke('blog', [
+        $view->invoke('topic', [
             'title' => other::filter($topic['name']),
             'date' => other::formatTime($topic['time']),
             'blog' => $blog['name'],
