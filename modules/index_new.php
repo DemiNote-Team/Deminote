@@ -7,7 +7,7 @@
     $top = $config['topics_on_page'];
     $limit = $top * $page - $top;
 
-    $topics_q = $db->query("SELECT `topic`.*, `user`.`login` FROM `topic`, `user` WHERE `user`.`id` = `topic`.`user` ORDER BY `time` ASC LIMIT $limit, $top");
+    $topics_q = $db->query("SELECT `topic`.*, `user`.`login` FROM `topic`, `user` WHERE `user`.`id` = `topic`.`user` ORDER BY `time` DESC LIMIT $limit, $top");
 
 
     while ($topic = $db->fetch($topics_q)) {
@@ -31,12 +31,19 @@
             }
         }
 
+        $cut_pos = mb_strpos($topic['text'], '<cut />', 0, 'UTF-8');
+        if ($cut_pos !== false) {
+            $text = other::processOutput(mb_substr($topic['text'], 0, $cut_pos, 'UTF-8'));
+        } else {
+            $text = other::processOutput($topic['text']);
+        }
+
         $view->invoke('topic', [
             'title' => other::filter($topic['name']),
             'date' => other::formatTime($topic['time'], $lang),
             'blog' => $blog['name'],
             'blog_translit' => $blog['translit'],
-            'text' => other::filter($topic['text']),
+            'text' => $text,
             'id' => (int) $topic['id'],
             'name' => other::filter($topic['translit']),
             'login' => $topic['login'],

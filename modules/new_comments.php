@@ -9,9 +9,13 @@
                                          `topic`.`blog`
                                   FROM `comments`, `topic`, `user`
                                   WHERE
-                                    `comments`.`topic` = `topic`.`id`
-                                  GROUP BY  `topic`.`id`
-                                  ORDER BY `comments`.`time` ASC
+                                    `comments`.`topic` IN (
+                                      SELECT DISTINCT `topic`
+                                      FROM `comments`
+                                      ORDER BY `time` DESC)
+                                    AND `topic`.`id` = `comments`.`topic`
+                                  GROUP BY `comments`.`topic`
+                                  ORDER BY `comments`.`time` DESC
                                   LIMIT $config[topics_on_page]");
 
     while ($comment = $db->fetch($new_comments_q)) {
