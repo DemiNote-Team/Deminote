@@ -1,4 +1,5 @@
 var error_handle = 0;
+var topic = 0;
 
 $(document).ready(function () {
     lang = JSON.parse(lang);
@@ -12,14 +13,14 @@ $(document).ready(function () {
         oauthdata = JSON.parse(oauthdata);
     }
 
-    var uri = location.href.split('/');
-    if (uri[uri.length - 1] == '#continuereg' && oauthdata) {
-        openRegWindow();
-        $('#reg-form-email').val(oauthdata['email']);
-        $('#reg-form-name').val(oauthdata['name']);
-        $('#reg-form-email,#reg-form-name').prop('disabled', 'true');
-        $('.reg-window-content-td').eq(1).detach();
-        $('.reg-window').css('width', '284px');
+    window.onpopstate = function(e) {
+        e.preventDefault();
+        var now_href = location.href;
+        var href = e.currentTarget.location.href;
+        if (href.split('#').splice(0, 1).join() != now_href.split('#').splice(0, 1).join()) {
+            var loc = parseHref(e.currentTarget.location.href);
+            navigate(loc, 1);
+        }
     }
 
     process();
@@ -40,10 +41,7 @@ function process() {
     $('a').each(function (i, v) {
         if (this.onclick == null) {
             $(this).unbind('click').bind('click', function (event) {
-                var s = this.href.split('/');
-                s.splice(0, 1);
-                s.splice(1, 1);
-                navigate(s.join('/'));
+                navigate(parseHref(this.href));
                 event.preventDefault();
                 return false;
             });
@@ -55,6 +53,19 @@ function process() {
         CKEDITOR.replaceAll();
     } catch (e) {
         console.log('Error: ' + e);
+    }
+
+    var uri = location.href.split('/');
+    if (uri[uri.length - 1] == '#continuereg' && oauthdata) {
+        openRegWindow();
+        $('#reg-form-email').val(oauthdata['email']);
+        $('#reg-form-name').val(oauthdata['name']);
+        $('#reg-form-email,#reg-form-name').prop('disabled', 'true');
+        $('.reg-window-content-td').eq(1).detach();
+        $('.reg-window').css('width', '284px');
+    }
+    if (uri[3] == 'view') {
+        topic = uri[4];
     }
 }
 
@@ -282,6 +293,7 @@ function processRegister() {
 
 function addComment() {
     var text = CKEDITOR.instances.newcomment.getData();
+    text = HTMLBB(text);
     sendAjax('addcomment', {
         text: text,
         topic: topic
@@ -292,7 +304,7 @@ function addComment() {
             showError(lang.error_happened_refresh_page);
         }
         if (data.success) {
-            navigate(location.href);
+            navigate(parseHref(location.href, 1) + (data.hash ? '#' + data.hash : ''));
             CKEDITOR.instances.newcomment.setData();
         }
     }, function () {
@@ -302,6 +314,7 @@ function addComment() {
 
 function addReply(id) {
     var text = CKEDITOR.instances.replycomment.getData();
+    text = HTMLBB(text);
     sendAjax('addcomment', {
         text: text,
         topic: topic,
@@ -314,7 +327,7 @@ function addReply(id) {
         }
         if (data.success) {
             $('.reply-form').detach();
-            navigate(location.href);
+            navigate(parseHref(location.href, 1) + (data.hash ? '#' + data.hash : ''));
         }
     }, function () {
         showError(lang.error_happened_refresh_page);
@@ -347,39 +360,71 @@ function abortReply() {
     $('#add-comment-form').slideDown(500);
 }
 
-function changeFavicon(icon) {
-    $('link[rel="shortcut icon"]').detach();
-    (function() {
-        var link = document.createElement('link');
-        link.type = 'image/x-icon';
-        link.rel = 'shortcut icon';
-        link.href = '/' + icon;
-        document.getElementsByTagName('head')[0].appendChild(link);
-    }());
-}
-
-function navigate(href) {
+function navigate(href, back) {
+    back = back || 0;
+    var hash = href.split('#').splice(1, 1).join();
+    href = href.split('#').splice(0, 1).join();
     console.log('Navigating to ' + href + '...');
-    changeFavicon('loading.gif');
     $('.loading-layout').show();
     sendAjax('getcontent', {
         link: href
     }, function (data) {
         data = JSON.parse(data);
         console.log(data);
+        if (data.gen) {
+            var gen = data.gen;
+            $('#generation').html(gen);
+        }
+        if (data.new_comments) {
+            var new_comments = Base64.decode(data.new_comments);
+            $('.new-comments').html(new_comments);
+        }
+        if (data.hash) {
+            hash = Base64.decode(data.hash);
+        }
         if (data.success) {
             data = Base64.decode(data.html);
             $('.content').html(data);
-            window.history.replaceState({}, document.title, href);
+            if (!back) window.history.pushState({}, document.title, href);
+            else window.history.replaceState({}, document.title, href);
             document.body.scrollTop = 0;
-            process();
-            changeFavicon('favicon.png');
             $('.loading-layout').hide();
-        }
-        if (data.script) {
-            eval(data.script);
+            process();
+            if (hash) location.hash = hash;
         }
     }, function () {
         showError(lang.error_happened_refresh_page);
     });
+}
+
+function parseHref(href, nohash) {
+    var s = href.split('/');
+    s.splice(0, 1);
+    s.splice(1, 1);
+    s = s.join('/');
+    if (nohash) s = s.split('#').splice(0, 1).join();
+    return s;
+}
+
+function HTMLBB(text) {
+    text = text
+        .replace(/\r/gim, '')
+        .replace(/\n/gim, '')
+        .replace(/</gim, '[')
+        .replace(/>/gim, ']')
+        .replace(/\[strong\]/gim, '[b]')
+        .replace(/\[\/strong\]/gim, '[/b]')
+        .replace(/\[em\]/gim, '[i]')
+        .replace(/\[\/em\]/gim, '[/i]')
+        .replace(/\[blockquote\]/gim, '[q]')
+        .replace(/\[\/blockquote\]/gim, '[/q]')
+        .replace(/\[ul\]/gim, '[ul]')
+        .replace(/\[\/ul\]/gim, '[/ul]')
+        .replace(/\[ol\]/gim, '[ol]')
+        .replace(/\[\/ol\]/gim, '[/ol]')
+        .replace(/\[li\]/gim, '[li]')
+        .replace(/\[\/li\]/gim, '[/li]')
+        .replace(/\[p\]/gim, '')
+        .replace(/\[\/p\]/gim, '\r\n');
+    return text;
 }

@@ -2,10 +2,10 @@
         <div class="sub" id="userbar">
             Osmium
             <div class="language-picker">
-                <a href="?lang=ru&return={{URI}}">
+                <a onclick="void(0);" href="?lang=ru">
                     <img src="{{DIR}}/theme/icons/flag_russia.png" class="flag" />
                 </a>
-                <a href="?lang=en&return={{URI}}">
+                <a onclick="void(0);" href="?lang=en">
                     <img src="{{DIR}}/theme/icons/flag_usa.png" class="flag" />
                 </a>
             </div>
@@ -19,6 +19,8 @@
                 </span>
             </div>
         </div>
+
+        <a href="/create/topic" class="add-new-topic">{{:add_new_topic}}</a>
 
         <div class="b-content">
             <div class="b-title">
@@ -35,7 +37,7 @@
                 {{:last_comments}}
             </div>
 
-            <div class="b-text">
+            <div class="b-text new-comments">
                 {{LAST_COMMENTS}}
             </div>
         </div>

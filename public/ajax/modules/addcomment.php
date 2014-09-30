@@ -7,7 +7,7 @@
     ];
     $rating = $rating_q[0] + $rating_q[1];
     if ($rating < -20) other::jsonDie(['error' => 1, 'desc' => 'rating_too_low']);
-    $text = $_POST['text'];
+    $text = trim($_POST['text']);
     $topic = (int) $_POST['topic'];
 
     if (other::length(strip_tags($text)) < 1) other::jsonDie(['error' => 1, 'desc' => 'message_too_small']);
@@ -28,4 +28,5 @@
     $db->query("INSERT INTO `comments` (`user`, `topic`, `time`, `text`, `reply`)
                 values
                 ('" . $user->data['id'] . "', '$topic[id]', '" . time() . "', '" . $db->filter($text) . "', '$reply')");
-    other::jsonDie(['success' => 1]);
+    $newid = $db->insert_id();
+    other::jsonDie(['success' => 1, 'hash' => 'comment-' . $newid]);

@@ -4,20 +4,32 @@
         protected $lang; //language
         protected $authorized;
 
-        public function __construct($dir, $lang, $default_lang, $user) {
+        protected function getCache($template) {
+            return false; //for developing
+            if (!isset($_SESSION['cache_' . $template])) return false;
+            return $_SESSION['cache_' . $template];
+        }
+
+        protected function addCache($template, $content) {
+            $_SESSION['cache_' . $template] = $content;
+        }
+
+        public function __construct($dir, localization $lang, $user) {
             $this->dir = $dir; //initializing directory
             $this->authorized = (bool) $user->authorized;
             $this->lang = $lang;
-            if (!file_exists(ROOT . '/' . $this->dir . '/lang/' . $lang . '.ini'))
-                $this->lang = $default_lang;
         }
 
         public function invoke($template, $params = [], $return = false) { //can be called w/o params
             $filename = ROOT . '/' . $this->dir . '/tpl/' . ($this->authorized ? '' : 'un') . 'authorized/' . $template . '.html';
             if (!$this->authorized && !file_exists(ROOT . '/' . $this->dir . '/tpl/unauthorized/' . $template . '.html')) $filename = ROOT . '/' . $this->dir . '/tpl/authorized/' . $template . '.html';
-            $lang = parse_ini_file(ROOT . '/' . $this->dir . '/lang/' . $this->lang . '.ini');
-            $f = fopen($filename, 'a+');
-            $content = fread($f, (filesize($filename) > 0 ? filesize($filename) : 1)); //reading template
+            $lang = $this->lang->getData();
+            $content = $this->getCache($template);
+            if (!$content) {
+                $f = fopen($filename, 'a+');
+                $content = fread($f, (filesize($filename) > 0 ? filesize($filename) : 1)); //reading template
+                $this->addCache($template, $content);
+            }
             foreach ($params as $key => $value) {
                 $content = str_ireplace('{{' . $key . '}}', $value, $content);
             } //replacing params

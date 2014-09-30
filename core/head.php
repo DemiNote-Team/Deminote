@@ -8,7 +8,7 @@
             die();
         }
         $_SESSION['lang'] = $_GET['lang'];
-        header('Location: ' . (isset($_GET['return']) ? $_GET['return'] : '/'));
+        header('Location: ' . explode('?', $_SERVER['REQUEST_URI'])[0]);
         die();
     }
 

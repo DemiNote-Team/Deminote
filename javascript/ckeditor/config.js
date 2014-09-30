@@ -26,8 +26,8 @@ CKEDITOR.on( 'dialogDefinition', function( ev ) {
         dialogDefinition.removeContents('advanced');
         dialogDefinition.removeContents('target');
         dialogDefinition.height = '250px';
-        var g = dialogDefinition.getContents('info');
-        g.remove('linkType');
+        var g = dialogDefinition.getContents('info').get('linkType');
+        g['items'].splice(1, 2);
     }
 
     if (dialogName == 'image') {

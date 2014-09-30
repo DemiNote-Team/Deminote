@@ -10,8 +10,55 @@
             return md5($password . md5($password . file_get_contents(ROOT . '/core/solt.dat')));
         }
 
-        public static function filter($string) {
-            return htmlspecialchars($string, ENT_QUOTES);
+        public static function filter($string, $quotes = 1) {
+            return htmlspecialchars($string, ($quotes ? ENT_QUOTES : ENT_NOQUOTES));
+        }
+
+        public static function translit($string) {
+            $string = preg_replace("@([^a-zа-я0-9\_])@sui", "", $string);
+            $string = mb_strtolower($string, 'UTF-8');
+            $translit = [
+                'ый' => 'y',
+                'ий' => 'y',
+                'ье' => 'ye',
+                'ъе' => 'ye',
+                'ьё' => 'ye',
+                'ъё' => 'ye',
+                'ё' => 'yo',
+                'ж' => 'zh',
+                'ш' => 'sh',
+                'щ' => 'shch',
+                'ю' => 'yu',
+                'я' => 'ya',
+                'ы' => 'y',
+                'ч' => 'ch',
+                'ц' => 'ts',
+                'й' => 'y',
+                'а' => 'a',
+                'б' => 'b',
+                'в' => 'v',
+                'г' => 'g',
+                'д' => 'd',
+                'е' => 'e',
+                'з' => 'z',
+                'и' => 'i',
+                'к' => 'k',
+                'л' => 'l',
+                'м' => 'm',
+                'н' => 'n',
+                'о' => 'o',
+                'п' => 'p',
+                'р' => 'r',
+                'с' => 's',
+                'т' => 't',
+                'у' => 'u',
+                'ф' => 'f',
+                'ъ' => '',
+                'ь' => '',
+                'э' => 'e'
+            ];
+            $string = strtr($string, $translit);
+            return $string;
         }
 
         public static function generateSession() {
@@ -31,12 +78,45 @@
             return $new_array;
         }
 
-        public static function formatTime($time) {
-            return "41 минуту назад";
+        public static function formatTime($time, localization $lang) {
+            $now = time();
+            $lang = $lang->getData();
+            $diff = ($now - $time);
+            $return = '';
+            if ($diff < 20) {
+                $return = $lang['just_now'];
+            } else if ($diff < 60) {
+                $return = $diff . ' ' . $lang['seconds_ago'];
+            } else if ($diff < 3600) {
+                $return = max(1, round($diff / 60)) . ' ' . $lang['minutes_ago'];
+            } else if ($diff < 3600 * 24) {
+                $return = max (1, round($diff / 3600)) . ' ' . $lang['hours_ago'];
+            } else if ($diff < 3600 * 24 * 30) {
+                $return = max (1, round($diff / 3600 / 24)) . ' ' . $lang['days_ago'];
+            } else {
+                $return = date("d.m.Y");
+            }
+            return $return;
         }
 
         public static function jsonDie($arr) {
             die(json_encode($arr));
+        }
+
+        public static function processOutput($text) {
+            $text = other::filter($text, false);
+            $text = nl2br($text);
+            $text = str_replace('&amp;', '&', $text);
+            $text = preg_replace("@\[b\](.+?)\[\/b\]@sui", "<b>$1</b>", $text);
+            $text = preg_replace("@\[s\](.+?)\[\/s\]@sui", "<s>$1</s>", $text);
+            $text = preg_replace("@\[i\](.+?)\[\/i\]@sui", "<i>$1</i>", $text);
+            $text = preg_replace("@\[ul\](.+?)\[\/ul\]@sui", "<ul>$1</ul>", $text);
+            $text = preg_replace("@\[ol\](.+?)\[\/ol\]@sui", "<ol>$1</ol>", $text);
+            $text = preg_replace("@\[li\](.+?)\[\/li\]@sui", "<li>$1</li>", $text);
+            $text = preg_replace("@\[q\](.+?)\[\/q\]@sui", "<blockquote>$1</blockquote>", $text);
+            $text = preg_replace("@\[a href=\"http(.+?)\"\](.+?)\[\/a\]@sui", "<a href=\"http$1\">$2</a>", $text);
+            $text = preg_replace("@\[img alt=\"\" src=\"http(.+?)\" \/\]@sui", "<img src=\"http$1\" />", $text);
+            return $text;
         }
 
     }

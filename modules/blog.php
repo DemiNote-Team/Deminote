@@ -1,17 +1,19 @@
 <?php
-    $view->invoke('page-title', ['title' => '{{:new_topics}}']);
-    $topics_count = $db->result($db->query("SELECT COUNT(`id`) FROM `topic`"), 0);
+    $id = (int) $arg[0];
+    $blog = $db->fetch($db->query("SELECT * FROM `blog` WHERE `id` = '" . (int) $id . "'"));
+    $view->invoke('page-title', ['title' => '{{:new_topics}}: {{name}}', 'name' => other::filter($blog['name'])]);
+    $topics_count = $db->result($db->query("SELECT COUNT(`id`) FROM `topic` WHERE `blog` = '" . (int) $id . "'"), 0);
     if (isset($_GET['page'])) $page = (int) $_GET['page'];
     else $page = 1;
-    $page = max(1, max((int) ($topics_count / $config['topics_on_page']), $page));
+    $page = max(1, max($topics_count, $page));
     $top = $config['topics_on_page'];
     $limit = $top * $page - $top;
 
-    $topics_q = $db->query("SELECT `topic`.*, `user`.`login` FROM `topic`, `user` WHERE `user`.`id` = `topic`.`user` ORDER BY `time` ASC LIMIT $limit, $top");
+    $topics_q = $db->query("SELECT `topic`.*, `user`.`login` FROM `topic`, `user` WHERE `topic`.`blog` = '" . (int) $id . "' AND `user`.`id` = `topic`.`user` ORDER BY `time` DESC LIMIT $limit, $top");
 
+    if ($db->num_rows($topics_q) == 0) $view->invoke('no-topics');
 
     while ($topic = $db->fetch($topics_q)) {
-        $blog = $db->fetch($db->query("SELECT * FROM `blog` WHERE `id` = '" . (int) $topic['blog'] . "'"));
 
         $topic_rating = (int) $db->result($db->query("SELECT SUM(`rating`) FROM `topic_rating` WHERE `topic` = '$topic[id]'"), 0);
         if ($topic_rating > 0) $rating_class = 'plus';

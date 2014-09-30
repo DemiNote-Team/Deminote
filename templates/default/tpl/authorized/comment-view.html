@@ -1,17 +1,23 @@
         <div class="comment {{TOUCHABLE}}" id="comment-{{ID}}" deep="{{DEEP}}">
-            <a href="/profile/{{LOGIN}}" class="{{BOLD}} {{ME}}"><img src="{{DIR}}/theme/icons/user.png" class="user-icon" /> {{LOGIN}}</a>, <span class="gray">{{TIME}}</span>
-            <br />
+            <div class="comment-info">
+                <a href="/profile/{{LOGIN}}" class="{{BOLD}} {{ME}}"><img src="{{DIR}}/theme/icons/user.png" class="user-icon" /> {{LOGIN}}</a>, <span class="gray">{{TIME}}</span>
+            </div>
+
             <div class="comment-content">
                 {{TEXT}}
             </div>
-            <br />
-            <a class="reply-link" onclick="openReplyForm('{{ID}}');">
-                Ответить
-            </a>
-            <span>
-                <img src="{{DIR}}/theme/icons/plus_circle{{PLUS_PASSIVE}}.png" class="rating-img plus-rating-img" />
-                <span class="rating {{RATING_CLASS}}">{{RATING}}</span>
-                <img src="{{DIR}}/theme/icons/minus_circle{{MINUS_PASSIVE}}.png" class="rating-img minus-rating-img" />
-            </span>
+
+            <div class="comment-links">
+                <a class="reply-link" onclick="openReplyForm('{{ID}}');">
+                    Ответить
+                </a>
+                <a href="#comment-{{ID}}">
+                    #
+                </a>
+                <span>
+                    <img src="{{DIR}}/theme/icons/plus_circle{{PLUS_PASSIVE}}.png" class="rating-img plus-rating-img" />
+                    <span class="rating {{RATING_CLASS}}">{{RATING}}</span>
+                    <img src="{{DIR}}/theme/icons/minus_circle{{MINUS_PASSIVE}}.png" class="rating-img minus-rating-img" />
+                </span>
+            </div>
         </div>
-        <br />
