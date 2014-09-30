@@ -1,2 +1,2 @@
 <?php
-    $view->invoke('add-topic-form');
+    if ($arg[0] == 'topic') include_once 'create-topic.php';

@@ -3,7 +3,6 @@
     ob_start();
     $router = new router();
     $router->route($_POST['link']);
-    $script = '';
     $data = ob_get_contents();
     ob_end_clean();
 

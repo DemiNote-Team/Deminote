@@ -15,7 +15,7 @@
         }
 
         public static function translit($string) {
-            $string = preg_replace("@([^a-zа-я0-9\_])@sui", "", $string);
+            $string = preg_replace("@([^a-zа-я0-9\_ ])@sui", "", $string);
             $string = mb_strtolower($string, 'UTF-8');
             $translit = [
                 'ый' => 'y',
@@ -55,7 +55,8 @@
                 'ф' => 'f',
                 'ъ' => '',
                 'ь' => '',
-                'э' => 'e'
+                'э' => 'e',
+                ' ' => '_'
             ];
             $string = strtr($string, $translit);
             return $string;
@@ -104,9 +105,11 @@
         }
 
         public static function processOutput($text) {
+            $text = str_replace('<cut />', '', $text);
             $text = other::filter($text, false);
             $text = nl2br($text);
             $text = str_replace('&amp;', '&', $text);
+            $text = str_replace('[br /]', '<br />', $text);
             $text = preg_replace("@\[b\](.+?)\[\/b\]@sui", "<b>$1</b>", $text);
             $text = preg_replace("@\[s\](.+?)\[\/s\]@sui", "<s>$1</s>", $text);
             $text = preg_replace("@\[i\](.+?)\[\/i\]@sui", "<i>$1</i>", $text);

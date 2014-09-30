@@ -24,9 +24,7 @@
         $script = 'oauthdata = \'' . $google_data . '\';';
     }
 
-    $t_lang = (isset($_SESSION['lang']) ? $_SESSION['lang'] : $config['default_lang']);
-    if (!file_exists(ROOT . '/templates/' . $config['template'] . '/lang/' . $t_lang . '.ini')) $t_lang = 'ru';
-    $langdata = parse_ini_file(ROOT . '/templates/' . $config['template'] . '/lang/' . $t_lang . '.ini');
+    $langdata = $lang->getData();
     foreach ($langdata as $key => $value) {
         $langdata[$key] = other::filter($value);
     }

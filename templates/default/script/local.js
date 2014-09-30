@@ -291,6 +291,32 @@ function processRegister() {
         });
 }
 
+function addTopic() {
+    var text = CKEDITOR.instances.createtopic.getData();
+    var title = $('#topic-name').val();
+    var blog = $('#topic-blog').val();
+    text = HTMLBB(text);
+
+    sendAjax('addtopic', {
+        text: text,
+        title: title,
+        blog: blog,
+        topic: topic
+    }, function (data) {
+        data = JSON.parse(data);
+        console.log(data);
+        if (data.error) {
+            showError(lang.error_happened_refresh_page);
+        }
+        if (data.success) {
+            navigate('/view/' + data.id + '/' + data.translit + '.html');
+            CKEDITOR.instances.newcomment.setData();
+        }
+    }, function () {
+        showError(lang.error_happened_refresh_page);
+    })
+}
+
 function addComment() {
     var text = CKEDITOR.instances.newcomment.getData();
     text = HTMLBB(text);

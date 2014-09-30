@@ -282,10 +282,11 @@ table.fullscreen, table.tr, table.td {
     top: 11px;
 }
 
-input[type="text"], input[type="password"], textarea {
+input[type="text"], input[type="password"], textarea, select, option {
     font-family: Segoe UI;
     padding: 10px;
     color: gray;
+    background: #fbfbfb;
     font-size: 16px;
     border: 1px solid #bbb;
 }
@@ -529,22 +530,17 @@ a.not-a-link {
 .comment-content {
     word-wrap: break-word;
     word-break: break-all;
-    display: inline-block;
-    padding: 11px;
-    background: #f5f5f5;
-    border-radius: 6px;
+    display: block;
+    padding: 10px 11px;
     border: 1px solid #bbb;
-    margin: 0 6px 0 -6px;
-    width: 100%;
-    box-shadow: 0 0 11px rgba(50, 50, 50, 0.75);
+    border-top: 0;
 }
 
 .comment-info {
-    
     border: 1px solid #bbb;
-    padding: 7px;
     border-bottom: 0;
-    border-radius: 6px 6px 0 0;
+    padding: 7px;
+    background: #f5f5f5;
     display: block;
 }
 
@@ -613,11 +609,11 @@ blockquote {
     box-shadow: 0px 0px 9px 0px rgba(50, 50, 50, 0.4);
 }
 
-.add-comment-b:hover {
+.add-comment-b:hover, .create-topic-b:hover {
     background: linear-gradient(to top, #f1f1f1 0%, #d2d2d2 100%);
 }
 
-.add-comment-b:active {
+.add-comment-b:active, .create-topic-b:active {
     background: linear-gradient(to top, #d1d1d1 0%, #b2b2b2 100%);
 }
 
@@ -641,16 +637,25 @@ blockquote {
 }
 
 a.add-new-topic {
-    margin: 22px 6px 22px 22px;
-    padding: 18px;
-    background: #ccc;
+    padding: 11px;
+    background: #eee;
     text-align: center;
-    border: 1px solid gray;
+    border: 1px solid #ccc;
     color: black;
     display: block;
+    font-size: 20px;
 }
 
-#topic-name {
+a.add-new-topic:hover {
+    background: #ddd;
+}
+
+.add-new-topic-p {
+    display: block;
+    margin: 22px 6px 12px 22px;
+}
+
+#topic-name, #topic-blog {
     width: 560px;
 }
 
