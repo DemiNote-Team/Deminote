@@ -3,8 +3,8 @@
     $topics_count = $db->result($db->query("SELECT COUNT(`id`) FROM `topic`"), 0);
     if (isset($_GET['page'])) $page = (int) $_GET['page'];
     else $page = 1;
-    $page = max(1, max((int) ($topics_count / $config['topics_on_page']), $page));
-    $top = $config['topics_on_page'];
+    $page = max(1, max((int) ($topics_count / $config['items_on_page']), $page));
+    $top = $config['items_on_page'];
     $limit = $top * $page - $top;
 
     $topics_q = $db->query("SELECT `topic`.*, `user`.`login` FROM `topic`, `user` WHERE `user`.`id` = `topic`.`user` ORDER BY `time` DESC LIMIT $limit, $top");

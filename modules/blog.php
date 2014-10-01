@@ -6,7 +6,7 @@
     if (isset($_GET['page'])) $page = (int) $_GET['page'];
     else $page = 1;
     $page = max(1, max($topics_count, $page));
-    $top = $config['topics_on_page'];
+    $top = $config['items_on_page'];
     $limit = $top * $page - $top;
 
     $topics_q = $db->query("SELECT `topic`.*, `user`.`login` FROM `topic`, `user` WHERE `topic`.`blog` = '" . (int) $id . "' AND `user`.`id` = `topic`.`user` ORDER BY `time` DESC LIMIT $limit, $top");

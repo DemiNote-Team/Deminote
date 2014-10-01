@@ -1,26 +1,31 @@
 <?php
     $last_comments = '';
-    $new_comments_q = $db->query("SELECT `comments`.`user`,
-                                         `comments`.`time`,
-                                         `comments`.`topic`,
-                                         `topic`.`name`,
-                                         `topic`.`id`,
-                                         `topic`.`translit`,
-                                         `topic`.`blog`
-                                  FROM `comments`, `topic`, `user`
-                                  WHERE
-                                    `comments`.`topic` IN (
-                                      SELECT DISTINCT `topic`
-                                      FROM `comments`
-                                      ORDER BY `time` DESC)
-                                    AND `topic`.`id` = `comments`.`topic`
-                                  GROUP BY `comments`.`topic`
-                                  ORDER BY `comments`.`time` DESC
-                                  LIMIT $config[topics_on_page]");
+    $new_comments_q = $db->query("SELECT * FROM (
+                                    SELECT `comments`.`user`,
+                                           `comments`.`time`,
+                                           `comments`.`topic`,
+                                           `comments`.`id` AS `commid`,
+                                           `topic`.`name`,
+                                           `topic`.`id`,
+                                           `topic`.`translit`,
+                                           `topic`.`blog`,
+                                           `user`.`login`
+                                    FROM `comments`, `topic`, `user`
+                                    WHERE
+                                      `comments`.`topic` IN (
+                                        SELECT DISTINCT `topic`
+                                        FROM `comments`
+                                        ORDER BY `time` DESC)
+                                      AND `topic`.`id` = `comments`.`topic`
+                                      AND `user`.`id` = `comments`.`user`
+                                    ORDER BY `comments`.`time` DESC
+                                  ) `data`
+								  GROUP BY `data`.`topic`
+  	    						  ORDER BY `data`.`time` DESC
+    							  LIMIT $config[items_on_page]");
 
     while ($comment = $db->fetch($new_comments_q)) {
-        $last_comment = $db->fetch($db->query("SELECT `comments`.`topic`, `user`.`login` FROM `user`, `comments` WHERE `comments`.`topic` = '$comment[topic]' AND `user`.`id` = `comments`.`user` ORDER BY `comments`.`time` DESC"));
-        $user_login = other::filter($last_comment['login']);
+        $user_login = other::filter($comment['login']);
         $topic_name = other::filter($comment['name']);
         $topic_id = (int) $comment['id'];
         $comment_time = other::formatTime((int) $comment['time'], $lang);

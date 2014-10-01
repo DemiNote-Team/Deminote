@@ -6,7 +6,9 @@
             global $view, $db, $user, $config, $lang;
             if (file_exists(ROOT . '/modules/' . $module . '.php'))
                 require ROOT . '/modules/' . $module . '.php';
-            else echo "&nbsp;<!-- NO MODULE -->&nbsp;";
+            else {
+                $view->invoke('404');
+            };
         }
 
     }
