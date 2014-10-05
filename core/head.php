@@ -40,8 +40,9 @@
             'description' => $config['description'],
             'script' => $script,
             'vk_app_id' => $config['vk_app_id'],
-            'google_client_id' => $config['google_app_id']
+            'google_client_id' => $config['google_app_id'],
+            'title' => 'Deminote'
         ]);
-        $view->invoke('sidebar', ['title' => 'Osmium CMS']);
+        $view->invoke('sidebar', ['title' => 'Deminote']);
         $view->invoke('content-open');
     }

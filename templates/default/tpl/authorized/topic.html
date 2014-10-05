@@ -15,9 +15,9 @@
             <a href="/profile/{{LOGIN}}"><img src="{{DIR}}/theme/icons/user.png" class="user-icon" /> {{LOGIN}}</a><span class="gray">, {{DATE}}</span>
 
             <span class="right-text">
-                <img src="{{DIR}}/theme/icons/plus_circle{{PLUS_PASSIVE}}.png" class="rating-img plus-rating-img" />
+                <img onclick="rating(0, '{{ID}}', 1, this);" src="{{DIR}}/theme/icons/plus_circle{{PLUS_PASSIVE}}.png" class="rating-img plus-rating-img" />
                 <span class="rating {{RATING_CLASS}}">{{RATING}}</span>
-                <img src="{{DIR}}/theme/icons/minus_circle{{MINUS_PASSIVE}}.png" class="rating-img minus-rating-img" />
+                <img onclick="rating(0, '{{ID}}', -1, this);" src="{{DIR}}/theme/icons/minus_circle{{MINUS_PASSIVE}}.png" class="rating-img minus-rating-img" />
             </span>
         </div>
     </div>

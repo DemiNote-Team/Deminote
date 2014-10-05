@@ -15,7 +15,7 @@
 
     while ($topic = $db->fetch($topics_q)) {
 
-        $topic_rating = (int) $db->result($db->query("SELECT SUM(`rating`) FROM `topic_rating` WHERE `topic` = '$topic[id]'"), 0);
+        $topic_rating = (int) $db->result($db->query("SELECT SUM(`rating`) FROM `rating` WHERE `type` = '0' AND `item` = '$topic[id]'"), 0);
         if ($topic_rating > 0) $rating_class = 'plus';
         if ($topic_rating < 0) $rating_class = 'minus';
         if ($topic_rating == 0) $rating_class = 'neutral';
@@ -24,7 +24,7 @@
         $plus_passive = '_passive';
         $minus_passive = '_passive';
         if ($user->authorized) {
-            $passive_q = $db->query("SELECT `rating`, `id` FROM `topic_rating` WHERE `user` = '" . $user->data['id'] . "' AND `topic` = '" . $topic['id'] . "'");
+            $passive_q = $db->query("SELECT `rating`, `id` FROM `rating` WHERE `type` = '0' AND `user` = '" . $user->data['id'] . "' AND `item` = '" . $topic['id'] . "'");
             if ($db->num_rows($passive_q) > 0) {
                 $passive = $db->fetch($passive_q);
                 if ($passive['rating'] == 1) $plus_passive = '';

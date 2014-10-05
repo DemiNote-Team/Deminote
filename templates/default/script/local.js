@@ -357,6 +357,33 @@ function addReply(id) {
         }
     }, function () {
         showError(lang.error_happened_refresh_page);
+    });
+}
+
+function rating(type, id, rating, img) {
+    rating = (rating == 1 ? rating : -1);
+    type = (type == 1 ? type : 0);
+    if (type == 1 && $('.touchable#comment-' + id).length == 0) return false;
+    sendAjax('rate', {
+        type: type,
+        rating: rating,
+        id: id
+    }, function (data) {
+        console.log(data);
+        data = JSON.parse(data);
+        if (data.error) {
+            showError(lang.error_happened_refresh_page);
+        }
+        if (data.success) {
+            $(img).parent().find('img').unbind('mouseenter').unbind('mouseleave');
+            $(img).parent('.touchable').removeClass('touchable');
+            img.src = img.src.replace('_passive', '');
+            rating = data.rating;
+            $(img).parent().parent().find('.rating').html(rating);
+            console.log('done');
+        }
+    }, function () {
+        showError(lang.error_happened_refresh_page);
     })
 }
 

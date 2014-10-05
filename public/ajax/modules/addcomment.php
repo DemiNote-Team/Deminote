@@ -2,8 +2,8 @@
     if (!isset($_POST['text']) || !isset($_POST['topic'])) other::jsonDie(['error' => 1, 'desc' => 'no_params']);
     if (!$user->authorized) other::jsonDie(['error' => 1, 'desc' => 'not_authorized']);
     $rating_q = [
-        $db->result($db->query("SELECT SUM(`comments_rating`.`rating`) FROM `comments`, `comments_rating` WHERE `comments_rating`.`comment` = `comments`.`id` AND `comments`.`user` = '" . $user->data['id'] . "'"), 0),
-        $db->result($db->query("SELECT SUM(`topic_rating`.`rating`) FROM `topic`, `topic_rating` WHERE `topic_rating`.`topic` = `topic`.`id` AND `topic`.`user` = '" . $user->data['id'] . "'"), 0)
+        $db->result($db->query("SELECT SUM(`rating`.`rating`) FROM `comments`, `rating` WHERE `type` = '1' AND `rating`.`item` = `comments`.`id` AND `comments`.`user` = '" . $user->data['id'] . "'"), 0),
+        $db->result($db->query("SELECT SUM(`rating`.`rating`) FROM `topic`, `rating` WHERE `type` = '0' AND `rating`.`item` = `topic`.`id` AND `topic`.`user` = '" . $user->data['id'] . "'"), 0)
     ];
     $rating = $rating_q[0] + $rating_q[1];
     if ($rating < -20) other::jsonDie(['error' => 1, 'desc' => 'rating_too_low']);
