@@ -50,7 +50,7 @@
         $db->query("INSERT INTO `user` (`login`, `password`, `email`, `name`, `reg_date`, `session`, `group`, `{$oauth_type}_id`)
                             values
                             ('$login', '$password', '$email', '$name', '$date', '$session', '1', '$oauth_id')");
-        setcookie('session', $session, time() + 3600 * 60 * 60, '/');
+        setcookie('user', $session, time() + 3600 * 60 * 60, '/');
         $success_answer['session'] = $session;
         die(json_encode($success_answer));
     }

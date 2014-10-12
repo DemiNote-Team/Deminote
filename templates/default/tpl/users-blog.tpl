@@ -1,0 +1,1 @@
+	<a href="/blog/{{ID}}/{{TRANSLIT}}.html">{{NAME}}</a><br />

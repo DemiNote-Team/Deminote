@@ -43,6 +43,9 @@
             'google_client_id' => $config['google_app_id'],
             'title' => 'Deminote'
         ]);
-        $view->invoke('sidebar', ['title' => 'Deminote']);
+        $view->invoke('sidebar', [
+            'title' => 'Deminote',
+            'login' => ($user->authorized ? $user->data['login'] : '')
+        ]);
         $view->invoke('content-open');
     }

@@ -1,5 +1,6 @@
 var error_handle = 0;
 var topic = 0;
+var branch_margin = 45;
 
 $(document).ready(function () {
     lang = JSON.parse(lang);
@@ -13,7 +14,7 @@ $(document).ready(function () {
         oauthdata = JSON.parse(oauthdata);
     }
 
-    window.onpopstate = function(e) {
+    window.onpopstate = function (e) {
         e.preventDefault();
         var now_href = location.href;
         var href = e.currentTarget.location.href;
@@ -21,14 +22,14 @@ $(document).ready(function () {
             var loc = parseHref(e.currentTarget.location.href);
             navigate(loc, 1);
         }
-    }
+    };
 
     process();
 });
 
 function process() {
     $('.comment').each(function (i, v) {
-        $(this).css('margin-left', (55 * Math.min(parseInt($(this).attr('deep')), 9)) + 'px');
+        $(this).css('margin-left', (branch_margin * Math.min(parseInt($(this).attr('deep')), 9)) + 'px');
     });
 
     $('.touchable .plus-rating-img, .touchable .minus-rating-img').on('mouseenter', function () {
@@ -54,6 +55,14 @@ function process() {
     } catch (e) {
         console.log('Error: ' + e);
     }
+
+    setTimeout(function () {
+        CKEDITOR.instances.newcomment.document.$.addEventListener('keyup', function(e) {
+            if (e.keyCode == 13 && e.ctrlKey) {
+                $('#add-comment').click();
+            }
+        });
+    }, 1000);
 
     var uri = location.href.split('/');
     if (uri[uri.length - 1] == '#continuereg' && oauthdata) {
@@ -153,7 +162,7 @@ function processAuthorizing() {
                     break;
                 case 'wrong-captcha':
                     errorText = lang.incorrect_captcha;
-                    break
+                    break;
                 default:
                     errorText = lang.error_happened_refresh_page;
                     break;
@@ -202,7 +211,7 @@ function processRegister() {
         error.push(lang.name_cannot_be_small);
     if (name.length > 24)
         error.push(lang.name_cannot_be_big);
-    if (!/^([a-z0-9\.\-\_]{1,20})@([a-z0-9\-]{1,20})\.([a-z]{1,20})$/im.test(email))
+    if (!/^([a-z0-9\.\-_]{1,20})@([a-z0-9\-]{1,20})\.([a-z]{1,20})$/im.test(email))
         error.push(lang.incorrect_email);
     if (captcha.length != 5)
         error.push(lang.incorrect_captcha);
@@ -317,6 +326,55 @@ function addTopic() {
     })
 }
 
+function addBlog() {
+    var title = $('#blog-name').val();
+    var closed = ($('#blog-closed')[0].checked ? 1 : 0);
+
+    sendAjax('addblog', {
+        title: title,
+        closed: closed
+    }, function (data) {
+        data = JSON.parse(data);
+        console.log(data);
+        if (data.error) {
+            showError(lang.error_happened_refresh_page);
+        }
+        if (data.success) {
+            location.href = '/blog/' + data.id + '/' + data.translit + '.html';
+        }
+    }, function () {
+        showError(lang.error_happened_refresh_page);
+    })
+}
+
+function editTopic() {
+    var text = CKEDITOR.instances.edittopic.getData();
+    var title = $('#topic-name').val();
+    var blog = $('#topic-blog').val();
+    var id = $('#topic-id').val();
+    text = HTMLBB(text);
+
+    sendAjax('edittopic', {
+        text: text,
+        title: title,
+        blog: blog,
+        id: id
+    }, function (data) {
+        console.log(data);
+        data = JSON.parse(data);
+        console.log(data);
+        if (data.error) {
+            showError(lang.error_happened_refresh_page);
+        }
+        if (data.success) {
+            navigate('/view/' + data.id + '/' + data.translit + '.html');
+            CKEDITOR.instances.newcomment.setData();
+        }
+    }, function () {
+        showError(lang.error_happened_refresh_page);
+    })
+}
+
 function addComment() {
     var text = CKEDITOR.instances.newcomment.getData();
     text = HTMLBB(text);
@@ -327,7 +385,9 @@ function addComment() {
         data = JSON.parse(data);
         console.log(data);
         if (data.error) {
-            showError(lang.error_happened_refresh_page);
+            if (data.desc == 'rating_too_low')
+                showError(lang.rating_too_low + '<br /><br />Rating: ' + data.rating + '<br />Need: ' + data.need);
+            else showError(lang.error_happened_refresh_page);
         }
         if (data.success) {
             navigate(parseHref(location.href, 1) + (data.hash ? '#' + data.hash : ''));
@@ -354,6 +414,23 @@ function addReply(id) {
         if (data.success) {
             $('.reply-form').detach();
             navigate(parseHref(location.href, 1) + (data.hash ? '#' + data.hash : ''));
+        }
+    }, function () {
+        showError(lang.error_happened_refresh_page);
+    });
+}
+
+function removeComment(id) {
+    sendAjax('removecomment', {
+        id: id
+    }, function (data) {
+        console.log(data);
+        data = JSON.parse(data);
+        if (data.error) {
+            showError(lang.error_happened_refresh_page);
+        }
+        if (data.success) {
+            $("#comment-" + id).find('.comment-content').html('<div class="gray">' + lang.removed_comment + "</div>");
         }
     }, function () {
         showError(lang.error_happened_refresh_page);
@@ -395,6 +472,13 @@ function openReplyForm(id) {
     $('#comment-' + id).append('<div class="reply-form"><br /><textarea id="replycomment" class="ckeditor reply-textarea"></textarea>' + button + button_cancel + '</div>');
     try {
         CKEDITOR.replace('replycomment');
+        setTimeout(function () {
+            CKEDITOR.instances.replycomment.document.$.addEventListener('keyup', function(e) {
+                if (e.keyCode == 13 && e.ctrlKey) {
+                    $('#add-comment').click();
+                }
+            });
+        }, 1000);
     } catch (e) {
         //ну хуле, бывает
         console.log('Error: ' + e);

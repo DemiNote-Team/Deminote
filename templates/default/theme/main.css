@@ -147,9 +147,9 @@ a:hover {
 }
 
 .sidebar-menu {
-    left: 100px;
+    margin-left: 100px;
     bottom: 0;
-    //position: fixed;
+    position: absolute;
     display: none;
     z-index: 203;
     border-left: 1px solid #333;
@@ -427,6 +427,7 @@ img.captcha {
     text-align: left;
     font-size: 20px;
     font-weight: bold;
+    padding-top: 11px;
 }
 
 .username {
@@ -516,36 +517,69 @@ a.not-a-link {
     font-size: 32px;
 }
 
+.h2 {
+    font-size: 27px;
+}
+
 .comments-count {
     margin-left: 6px;
     margin-bottom: 20px;
 }
 
 .comment {
-    padding: 5px;
-    margin: 6px;
+    padding: 0 5px 5px 0;
+    margin: 0;
+    display: block;
+}
+
+.comment:hover .comment-content, .comment:hover .comment-info, .comment:hover .comment-links {
+    background: #eee;
+    /*border: 1px solid #ccc;*/
+}
+
+.comment:hover .comment-content {
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+
+.comment:hover .comment-info {
+    border: 1px solid #ccc;
+    border-bottom: 0;
+}
+
+.comment:hover .comment-links {
+    border: 1px solid #ccc;
+    border-top: 0;
+}
+
+.comments-count {
+    border-bottom: 1px solid #ccc;
+    font-size: 20px;
+    padding: 7px;
     display: block;
 }
 
 .comment-content {
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
     word-wrap: break-word;
     word-break: break-all;
     display: block;
-    padding: 10px 11px;
-    border: 1px solid #bbb;
+    padding: 0 4px;
     border-top: 0;
 }
 
 .comment-info {
-    border: 1px solid #bbb;
+    border: 1px solid #fff;
     border-bottom: 0;
-    padding: 7px;
-    background: #f5f5f5;
     display: block;
+    padding: 3px;
 }
 
 .comment-links {
-    padding: 4px;
+    border: 1px solid #fff;
+    border-top: 0;
+    padding: 3px 3px 7px;
     /*border: 1px solid #8b8;
     border-top: 0;
     border-radius: 0 0 8px 8px;
@@ -557,10 +591,14 @@ a.not-a-link {
 }
 
 blockquote {
-    margin: 0 0 0 20px;
+    margin: 4px;
     padding: 6px 6px 6px 10px;
     border-left: 5px solid gray;
     color: #222;
+}
+
+.userimg {
+    margin: 6px;
 }
 
 #add-comment {
@@ -617,9 +655,11 @@ blockquote {
     background: linear-gradient(to top, #d1d1d1 0%, #b2b2b2 100%);
 }
 
-.reply-link {
+.comment-link {
     cursor: pointer;
     font-size: 16px;
+    border-bottom: 1px dashed gray;
+    margin-right: 6px;
 }
 
 .bold {
@@ -629,30 +669,35 @@ blockquote {
 
 .me {
     font-weight: bold;
-    color: #33f
 }
 
 .no-topics {
     font-size: 24px;
 }
 
-a.add-new-topic {
+a.add-new-t {
     padding: 11px;
     background: #eee;
     text-align: center;
     border: 1px solid #ccc;
     color: black;
     display: block;
-    font-size: 20px;
+    font-size: 16px;
 }
 
-a.add-new-topic:hover {
+a.add-new-t:hover {
     background: #ddd;
 }
 
-.add-new-topic-p {
-    display: block;
-    margin: 22px 6px 12px 22px;
+.add-new-t-p {
+    display: inline-block;
+    width: 128px;
+    margin: 6px 0 18px 10px;
+}
+
+.right-create-d {
+    text-align: left;
+    margin-left: 12px;
 }
 
 #topic-name, #topic-blog {
@@ -677,4 +722,66 @@ a.add-new-topic:hover {
 
 .very-big {
     font-size: 72px;
+}
+
+.top-sub {
+    font-size: 24px;
+    border: 0;
+    background: inherit;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.add-new-img {
+    width: 40px;
+}
+
+.hidden-controls {
+    display: none;
+}
+
+.hidden-controls a {
+    cursor: pointer;
+}
+
+.comment:hover .hidden-controls {
+    display: inline-block;
+}
+
+.gray {
+    color: gray;
+}
+
+p {
+    margin: 2px;
+}
+
+ul {
+    margin: 0;
+}
+
+.edit-link {
+    margin-right: 20px;
+    font-size: 16px;
+}
+
+#edit-img {
+    width: 12px;
+}
+
+input[type='checkbox'] {
+    padding: 16px;
+    width: 20px;
+    height: 20px;
+    background: #eee;
+}
+
+.green {
+    color: darkgreen;
+}
+
+.red {
+    color: darkred;
 }

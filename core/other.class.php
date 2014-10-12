@@ -104,8 +104,8 @@
             die(json_encode($arr));
         }
 
-        public static function processOutput($text) {
-            $text = str_replace('<cut />', '', $text);
+        public static function processOutput($text, $nocut = false) {
+            if (!$nocut) $text = str_replace('[cut]', '', $text);
             $text = other::filter($text, false);
             $text = nl2br($text);
             $text = str_replace('&amp;', '&', $text);
@@ -118,7 +118,7 @@
             $text = preg_replace("@\[li\](.+?)\[\/li\]@sui", "<li>$1</li>", $text);
             $text = preg_replace("@\[q\](.+?)\[\/q\]@sui", "<blockquote>$1</blockquote>", $text);
             $text = preg_replace("@\[a href=\"http(.+?)\"\](.+?)\[\/a\]@sui", "<a href=\"http$1\">$2</a>", $text);
-            $text = preg_replace("@\[img alt=\"\" src=\"http(.+?)\" \/\]@sui", "<img src=\"http$1\" />", $text);
+            $text = preg_replace("@\[img alt=\"\" src=\"http(.+?)\" \/\]@sui", "<img class=\"userimg\" src=\"http$1\" />", $text);
             return $text;
         }
 

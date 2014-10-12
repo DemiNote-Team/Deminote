@@ -5,11 +5,17 @@
     $topics_count = $db->result($db->query("SELECT COUNT(`id`) FROM `topic` WHERE `blog` = '" . (int) $id . "'"), 0);
     if (isset($_GET['page'])) $page = (int) $_GET['page'];
     else $page = 1;
-    $page = max(1, max($topics_count, $page));
+    $page = min(1, max($topics_count, $page));
     $top = $config['items_on_page'];
     $limit = $top * $page - $top;
 
-    $topics_q = $db->query("SELECT `topic`.*, `user`.`login` FROM `topic`, `user` WHERE `topic`.`blog` = '" . (int) $id . "' AND `user`.`id` = `topic`.`user` ORDER BY `time` DESC LIMIT $limit, $top");
+    $topics_q = $db->query("SELECT `topic`.*,
+                                   `user`.`login`
+                            FROM `topic`, `user`
+                            WHERE `topic`.`blog` = '" . $id . "'
+                            AND `user`.`id` = `topic`.`user`
+                            ORDER BY `time` DESC
+                            LIMIT $limit, $top");
 
     if ($db->num_rows($topics_q) == 0) $view->invoke('no-topics');
 
@@ -33,11 +39,13 @@
             }
         }
 
-        $cut_pos = mb_strpos($topic['text'], '<cut />', 0, 'UTF-8');
+        $cut_pos = mb_strpos($topic['text'], '[cut]', 0, 'UTF-8');
         if ($cut_pos !== false) {
             $text = other::processOutput(mb_substr($topic['text'], 0, $cut_pos, 'UTF-8'));
+            $read_more = 'block';
         } else {
             $text = other::processOutput($topic['text']);
+            $read_more = 'none';
         }
 
         $view->invoke('topic', [
@@ -53,6 +61,7 @@
             'touchable' => 'touchable',
             'plus_passive' => $plus_passive,
             'minus_passive' => $minus_passive,
-            'blog_id' => (int) $topic['blog']
+            'blog_id' => (int) $topic['blog'],
+            'read_more' => $read_more
         ]);
     }

@@ -31,11 +31,13 @@
             }
         }
 
-        $cut_pos = mb_strpos($topic['text'], '<cut />', 0, 'UTF-8');
+        $cut_pos = mb_strpos($topic['text'], '[cut]', 0, 'UTF-8');
         if ($cut_pos !== false) {
             $text = other::processOutput(mb_substr($topic['text'], 0, $cut_pos, 'UTF-8'));
+            $read_more = 'block';
         } else {
             $text = other::processOutput($topic['text']);
+            $read_more = 'none';
         }
 
         $view->invoke('topic', [
@@ -52,6 +54,7 @@
             'plus_passive' => $plus_passive,
             'minus_passive' => $minus_passive,
             'blog_id' => (int) $topic['blog'],
-            'rating_class' => $rating_class
+            'rating_class' => $rating_class,
+            'read_more' => $read_more
         ]);
     }

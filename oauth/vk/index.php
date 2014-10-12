@@ -30,7 +30,7 @@
                     $session = other::generateSession();
                     $_SESSION['session'] = $session;
                     $db->query("UPDATE `user` SET `session` = '$session' WHERE `id` = '$user[id]'");
-                    setcookie('session', $session, time() + 3600 * 60 * 60, '/');
+                    setcookie('user', $session, time() + 3600 * 60 * 60, '/');
                     header('Location: /');
                     die();
                 }

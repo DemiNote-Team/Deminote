@@ -72,5 +72,10 @@
             return $this->mysqli_result($res, $row);
         }
 
+        public function power_query($query) {
+            $q = $this->query($query);
+            return $this->fetch($q);
+        }
+
     }
 ?>

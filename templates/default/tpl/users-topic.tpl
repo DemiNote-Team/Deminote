@@ -1,0 +1,1 @@
+	<a href="/view/{{ID}}/{{TRANSLIT}}.html">{{NAME}}</a><br />

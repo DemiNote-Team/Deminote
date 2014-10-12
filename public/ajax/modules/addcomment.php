@@ -6,7 +6,12 @@
         $db->result($db->query("SELECT SUM(`rating`.`rating`) FROM `topic`, `rating` WHERE `type` = '0' AND `rating`.`item` = `topic`.`id` AND `topic`.`user` = '" . $user->data['id'] . "'"), 0)
     ];
     $rating = $rating_q[0] + $rating_q[1];
-    if ($rating < -20) other::jsonDie(['error' => 1, 'desc' => 'rating_too_low']);
+    if ($rating < $config['rating_for_comment'] && $user->data['group'] == 1) other::jsonDie([
+        'error' => 1,
+        'desc' => 'rating_too_low',
+        'rating' => $rating,
+        'need' => $config['rating_for_comment']
+    ]);
     $text = trim($_POST['text']);
     $topic = (int) $_POST['topic'];
 

@@ -20,9 +20,6 @@
 </head>
 <body>
     <div class="error-layout">
-        <b>{{:error}}!</b>
-        <br />
-        <br />
         <div class="error-text">
             {{:error_happened}}.
         </div>
