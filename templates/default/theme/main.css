@@ -540,6 +540,8 @@ a.not-a-link {
 .comment:hover .comment-content {
     border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
+    /*border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;*/
 }
 
 .comment:hover .comment-info {
@@ -565,7 +567,7 @@ a.not-a-link {
     word-wrap: break-word;
     word-break: break-all;
     display: block;
-    padding: 0 4px;
+    padding: 1px 4px;
     border-top: 0;
 }
 

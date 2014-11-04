@@ -16,7 +16,7 @@
         }
 
         public function __construct($dir, localization $lang, user $user) {
-            $this->dir = $dir; //initializing directory
+            $this->dir = $dir;
             $this->authorized = (bool) $user->authorized;
             $this->user = $user;
             $this->lang = $lang;
@@ -28,36 +28,49 @@
             $content = $this->getCache($template);
             if (!$content) {
                 $f = fopen($filename, 'a+');
-                $content = fread($f, (filesize($filename) > 0 ? filesize($filename) : 1)); //reading template
+                $content = fread($f, (filesize($filename) > 0 ? filesize($filename) : 1));
                 $this->addCache($template, $content);
             }
             foreach ($params as $key => $value) {
                 $content = str_ireplace('{{' . $key . '}}', $value, $content);
-            } //replacing params
-            preg_match_all("@\{\{:([a-z0-9\_]+?)}\}@sui", $content, $localization);
+            }
+            preg_match_all("@{{:([a-z0-9_]+?)}}@sui", $content, $localization);
             $localization = $localization[1];
             foreach ($localization as $value) {
                 $content = str_ireplace('{{:' . $value . '}}', $lang[$value], $content);
             } //applying lang
+
             foreach ($quests as $key => $value) {
-                $content = preg_replace("@\{\?$key=((?!$value).+?)\?\}(.+?)\{\?\?\}@sui", "", $content);
-                $content = preg_replace("@\{\?$key=$value\?\}(.+?)\{\?\?\}@sui", "$1", $content);
+                preg_match_all("@{\?$key=$value\?}(((?!{\?.+\?}).)*?){\?\?}@sui", $content, $matches);
+                while (!empty($matches[0])) {
+                    $content = str_replace($matches[0][0], $matches[1][0], $content);
+                    preg_match_all("@{\?$key=$value\?}(((?!{\?.+\?}).)*?){\?\?}@sui", $content, $matches);
+                }
+                preg_match_all("@{\?$key=((?!$value).+?)\?}(((?!{\?.+\?}).)*?){\?\?}@sui", $content, $matches);
+                while (!empty($matches[0])) {
+                    $content = str_replace($matches[0][0], "", $content);
+                    preg_match_all("@{\?$key=((?!$value).+?)\?}(((?!{\?.+\?}).)*?){\?\?}@sui", $content, $matches);
+                }
             }
 
-            preg_match_all("@\{\?access=(.+?)\?\}(.+?)\{\?\?\}@sui", $content, $perms);
-            foreach ($perms[1] as $value) {
-                if ($this->user->canAccess($value))
-                    $content = preg_replace("@\{\?access=$value\?\}(.+?)\{\?\?\}@sui", "$1", $content);
+            preg_match_all("@{\?access=([a-z0-9]+?)\?}(((?!{\?.+\?}).)*?){\?\?}@sui", $content, $perms);
+            while (!empty($perms[0])) {
+                foreach ($perms[1] as $value) {
+                    if ($this->user->canAccess($value))
+                        $content = preg_replace("@{\?access=$value\?}(((?!{\?.+\?}).)*?){\?\?}@sui", "$1", $content);
+                    else $content = preg_replace("@{\?access=$value\?}(((?!{\?.+\?}).)*?){\?\?}@sui", "", $content);
+                }
+                preg_match_all("@{\?access=([a-z0-9]+?)\?}(((?!{\?.+\?}).)*?){\?\?}@sui", $content, $perms);
             }
 
-            $content = preg_replace("@\{\?authorized=((?!" . (int) $this->authorized . ").+?)\?\}(.+?)\{\?\?\}@sui", "", $content);
-            $content = preg_replace("@\{\?authorized=" . (int) $this->authorized . "\?\}(.+?)\{\?\?\}@sui", "$1", $content);
-            $content = preg_replace("@\{\?(.+?)\?\}(.+?)\{\?\?\}@sui", "", $content);
+            $content = preg_replace("@{\?authorized=((?!" . (int) $this->authorized . ").+?)\?}(.+?){\?\?}@sui", "", $content);
+            $content = preg_replace("@{\?authorized=" . (int) $this->authorized . "\?}(.+?){\?\?}@sui", "$1", $content);
+            $content = preg_replace("@{\?(.+?)\?}(.+?){\?\?}@sui", "", $content);
 
             $content = str_ireplace('{{DIR}}', '/' . $this->dir, $content); //replacing DIR param
             $content = str_ireplace('{{URI}}', urlencode(other::filter($_SERVER['REQUEST_URI'])), $content); //replacing URI param
-            $content = str_ireplace('{{HTTP_HOST}}', $_SERVER['HTTP_HOST'], $content); //replacing DIR param
-            $content = preg_replace("@\{\?((.+?)|(.+?){0})\?\}@sui", "", $content);
+            $content = str_ireplace('{{HTTP_HOST}}', $_SERVER['HTTP_HOST'], $content); //replacing HTTP_HOST param
+            $content = preg_replace("@{\?((.+?)|(.+?){0})\?}@sui", "", $content);
             if (!$return) echo $content;
             return $content;
         }

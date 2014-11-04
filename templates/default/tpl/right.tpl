@@ -1,7 +1,7 @@
 {?authorized=1?}
     <div class="right">
 		<div class="sub top-sub">
-            Deminote
+            Joxinote
             <div class="language-picker">
                 <a onclick="void(0);" href="?lang=ru">
                     <img src="{{DIR}}/theme/icons/flag_russia.png" class="flag" />
@@ -62,7 +62,7 @@
 {?authorized=0?}
 	<div class="right">
 		<div class="sub" id="userbar">
-			Deminote
+			Joxinote
 			<div class="language-picker">
 				<a href="?lang=ru&return={{URI}}">
 					<img src="{{DIR}}/theme/icons/flag_russia.png" class="flag" />

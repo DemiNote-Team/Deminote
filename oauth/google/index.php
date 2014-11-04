@@ -8,7 +8,7 @@
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_SSL_VERIFYHOST => 0,
             CURLOPT_SSL_VERIFYPEER => 0,
-            CURLOPT_USERAGENT => 'Deminote Authorizing',
+            CURLOPT_USERAGENT => 'Joxinote Authorizing',
             CURLOPT_POST => 1,
             CURLOPT_POSTFIELDS => 'code=' . $code . '&client_id=' . $config['google_app_id'] . '&client_secret=' . $config['google_app_secret'] . '&redirect_uri=http://' . $_SERVER['HTTP_HOST'] . '/oauth/google&grant_type=authorization_code',
             CURLOPT_HTTPHEADER => [
@@ -27,7 +27,7 @@
                 CURLOPT_RETURNTRANSFER => 1,
                 CURLOPT_SSL_VERIFYHOST => 0,
                 CURLOPT_SSL_VERIFYPEER => 0,
-                CURLOPT_USERAGENT => 'Deminote Authorizing'
+                CURLOPT_USERAGENT => 'Joxinote Authorizing'
             ]);
             $e = curl_exec($ch);
             $data = json_decode($e, true);

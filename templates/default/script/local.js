@@ -1,6 +1,7 @@
 var error_handle = 0;
 var topic = 0;
 var branch_margin = 45;
+var current_href = location.href;
 
 $(document).ready(function () {
     lang = JSON.parse(lang);
@@ -16,9 +17,8 @@ $(document).ready(function () {
 
     window.onpopstate = function (e) {
         e.preventDefault();
-        var now_href = location.href;
         var href = e.currentTarget.location.href;
-        if (href.split('#').splice(0, 1).join() != now_href.split('#').splice(0, 1).join()) {
+        if (href.split('#').splice(0, 1).join() != current_href.split('#').splice(0, 1).join()) {
             var loc = parseHref(e.currentTarget.location.href);
             navigate(loc, 1);
         }
@@ -528,6 +528,7 @@ function navigate(href, back) {
             $('.loading-layout').hide();
             process();
             if (hash) location.hash = hash;
+            current_href = location.href;
         }
     }, function () {
         showError(lang.error_happened_refresh_page);

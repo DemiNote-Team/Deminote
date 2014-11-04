@@ -41,10 +41,10 @@
             'script' => $script,
             'vk_app_id' => $config['vk_app_id'],
             'google_client_id' => $config['google_app_id'],
-            'title' => 'Deminote'
+            'title' => 'Joxinote'
         ]);
         $view->invoke('sidebar', [
-            'title' => 'Deminote',
+            'title' => 'Joxinote',
             'login' => ($user->authorized ? $user->data['login'] : '')
         ]);
         $view->invoke('content-open');

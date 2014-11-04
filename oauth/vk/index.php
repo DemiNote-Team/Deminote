@@ -8,7 +8,7 @@
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_SSL_VERIFYHOST => 0,
             CURLOPT_SSL_VERIFYPEER => 0,
-            CURLOPT_USERAGENT => 'Deminote Authorizing'
+            CURLOPT_USERAGENT => 'Joxinote Authorizing'
         ]);
         $e = curl_exec($ch);
         $data = json_decode($e, true);
@@ -40,7 +40,7 @@
                     CURLOPT_RETURNTRANSFER => 1,
                     CURLOPT_SSL_VERIFYHOST => 0,
                     CURLOPT_SSL_VERIFYPEER => 0,
-                    CURLOPT_USERAGENT => 'Deminote Authorizing'
+                    CURLOPT_USERAGENT => 'Joxinote Authorizing'
                 ]);
                 $e = curl_exec($ch);
                 $e = json_decode($e, true);
