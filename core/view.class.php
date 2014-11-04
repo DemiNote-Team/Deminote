@@ -4,6 +4,7 @@
         protected $lang; //language
         protected $authorized;
         protected $user;
+        public $executeTime;
 
         protected function getCache($template) {
             return false; //uncomment for developing
@@ -23,6 +24,8 @@
         }
 
         public function invoke($template, $params = [], $return = false, $quests = []) { //can be called w/o params
+            $startTime = microtime(true);
+
             $filename = ROOT . '/' . $this->dir . '/tpl/' . $template . '.tpl';
             $lang = $this->lang->getData();
             $content = $this->getCache($template);
@@ -31,47 +34,36 @@
                 $content = fread($f, (filesize($filename) > 0 ? filesize($filename) : 1));
                 $this->addCache($template, $content);
             }
+
+            $params['dir'] = '/' . $this->dir;
+            $params['uri'] = urlencode(other::filter($_SERVER['REQUEST_URI']));
+            $params['http_host'] = $_SERVER['HTTP_HOST'];
             foreach ($params as $key => $value) {
                 $content = str_ireplace('{{' . $key . '}}', $value, $content);
-            }
+            } //applying params
+
             preg_match_all("@{{:([a-z0-9_]+?)}}@sui", $content, $localization);
             $localization = $localization[1];
             foreach ($localization as $value) {
                 $content = str_ireplace('{{:' . $value . '}}', $lang[$value], $content);
             } //applying lang
 
-            foreach ($quests as $key => $value) {
-                preg_match_all("@{\?$key=$value\?}(((?!{\?.+\?}).)*?){\?\?}@sui", $content, $matches);
-                while (!empty($matches[0])) {
-                    $content = str_replace($matches[0][0], $matches[1][0], $content);
-                    preg_match_all("@{\?$key=$value\?}(((?!{\?.+\?}).)*?){\?\?}@sui", $content, $matches);
+            $quests['authorized'] = (int) $this->authorized;
+            preg_match_all("@{\?([a-z0-9_\-]+?)=([a-z0-9_\-]+?)\?}(((?!{\?.+\?}).)*?){\?\?}@sui", $content, $matches);
+            while (!empty($matches[0])) {
+                for ($i = 0; $i < count($matches[0]); $i++) {
+                    if ($matches[1][$i] == 'access') {
+                        $content = preg_replace("@{\?access=" . $matches[2][$i] . "\?}(((?!{\?.+\?}).)*?){\?\?}@sui", ($this->user->canAccess($matches[2][$i]) ? "$1" : ""), $content);
+                        continue;
+                    }
+                    $content = preg_replace("@{\?" . $matches[1][$i] . "=" . (string) @$quests[$matches[1][$i]] . "\?}(((?!{\?.+\?}).)*?){\?\?}@sui", "$1", $content);
+                    $content = preg_replace("@{\?" . $matches[1][$i] . "=(.+?)\?}(((?!{\?.+\?}).)*?){\?\?}@sui", "", $content);
                 }
-                preg_match_all("@{\?$key=((?!$value).+?)\?}(((?!{\?.+\?}).)*?){\?\?}@sui", $content, $matches);
-                while (!empty($matches[0])) {
-                    $content = str_replace($matches[0][0], "", $content);
-                    preg_match_all("@{\?$key=((?!$value).+?)\?}(((?!{\?.+\?}).)*?){\?\?}@sui", $content, $matches);
-                }
+                preg_match_all("@{\?([a-z0-9_\-]+?)=([a-z0-9_\-]+?)\?}(((?!{\?.+\?}).)*?){\?\?}@sui", $content, $matches);
             }
 
-            preg_match_all("@{\?access=([a-z0-9]+?)\?}(((?!{\?.+\?}).)*?){\?\?}@sui", $content, $perms);
-            while (!empty($perms[0])) {
-                foreach ($perms[1] as $value) {
-                    if ($this->user->canAccess($value))
-                        $content = preg_replace("@{\?access=$value\?}(((?!{\?.+\?}).)*?){\?\?}@sui", "$1", $content);
-                    else $content = preg_replace("@{\?access=$value\?}(((?!{\?.+\?}).)*?){\?\?}@sui", "", $content);
-                }
-                preg_match_all("@{\?access=([a-z0-9]+?)\?}(((?!{\?.+\?}).)*?){\?\?}@sui", $content, $perms);
-            }
-
-            $content = preg_replace("@{\?authorized=((?!" . (int) $this->authorized . ").+?)\?}(.+?){\?\?}@sui", "", $content);
-            $content = preg_replace("@{\?authorized=" . (int) $this->authorized . "\?}(.+?){\?\?}@sui", "$1", $content);
-            $content = preg_replace("@{\?(.+?)\?}(.+?){\?\?}@sui", "", $content);
-
-            $content = str_ireplace('{{DIR}}', '/' . $this->dir, $content); //replacing DIR param
-            $content = str_ireplace('{{URI}}', urlencode(other::filter($_SERVER['REQUEST_URI'])), $content); //replacing URI param
-            $content = str_ireplace('{{HTTP_HOST}}', $_SERVER['HTTP_HOST'], $content); //replacing HTTP_HOST param
-            $content = preg_replace("@{\?((.+?)|(.+?){0})\?}@sui", "", $content);
             if (!$return) echo $content;
+            $this->executeTime += (microtime(true) - $startTime);
             return $content;
         }
     }

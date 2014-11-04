@@ -2,7 +2,7 @@
 
     class router {
         public $module;
-        public  $params;
+        public $params;
 
         public function __construct() {
             $path = explode('/', $_SERVER['REQUEST_URI']);
